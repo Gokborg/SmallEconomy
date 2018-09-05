@@ -6,8 +6,7 @@ import org.bukkit.command.CommandSender;
 public class DeleteAccount extends SubCommand{
 
 	@Override
-	public boolean process(CommandSender sender, Command command, String label, String[] args) {
+	public void process(CommandSender sender, Command command, String label, String[] args) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 }

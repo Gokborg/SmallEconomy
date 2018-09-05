@@ -18,7 +18,7 @@ public class CreateAccount extends SubCommand{
 	
 	
 	@Override
-	public boolean process(CommandSender sender, Command command, String label, String[] args) {
+	public void process(CommandSender sender, Command command, String label, String[] args) {
 		/*
 		 * args[0] = create
 		 * args[1] = account_name
@@ -28,7 +28,7 @@ public class CreateAccount extends SubCommand{
 		
 		if (args.length >= 3) {
 			player.sendMessage(Color.RED + "Insufficient arguments");
-			return false;
+			return;
 		}
 		else if (args.length == 1) {
 			//Create an account with default MC name. First check if account already exists else create it
@@ -42,7 +42,7 @@ public class CreateAccount extends SubCommand{
 			//Check if they already have a main account!
 			if (playerUser.getAccount(playerUser.getName()) != null) {
 				player.sendMessage(Color.RED + "The account already exists!");
-				return false;
+				return;
 			}
 			
 			//Creates an account under that user using their name.
@@ -55,8 +55,6 @@ public class CreateAccount extends SubCommand{
 			//Create an account with args[2] as name.
 			playerUser.addAccount(new Account(args[2]));
 		}
-		
-		return true;
 		
 	}
 	
