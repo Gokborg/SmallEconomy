@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.entity.Player;
-
 public class User{
 	//Don't let players create accounts with their own name.
 	private Map<String, Account> subAccounts = new HashMap<>();
