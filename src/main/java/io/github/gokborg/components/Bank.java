@@ -25,7 +25,7 @@ public class Bank {
 	}
 	public Account getAccount(User userAccount, String accountName, UUID playerUUID) {
 		Account requestedAccount = userAccount.getAccount(accountName);
-		return requestedAccount.hasAccess(playerUUID) ? requestedAccount : null;
+		return requestedAccount == null || !requestedAccount.hasAccess(playerUUID) ? null : requestedAccount;
 	}
 	
 	public User getUser(String name) {
