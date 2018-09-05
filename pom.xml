@@ -7,5 +7,19 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SmolEconomy</name>
 	<description>Small economy plugin.</description>
-
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>1.13.1-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.github.pieter12345</groupId>
+			<artifactId>JavaLoader</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>
