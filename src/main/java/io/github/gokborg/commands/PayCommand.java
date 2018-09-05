@@ -1,7 +1,6 @@
 package io.github.gokborg.commands;
 
-import java.awt.Color;
-
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,15 +35,15 @@ public class PayCommand implements CommandExecutor{
 			
 			//Verifying both accounts
 			if (playerAccount == null) {
-				player.sendMessage(Color.RED + "The account '" + args[0] + "' does not exist");
+				player.sendMessage(ChatColor.RED + "The account '" + args[0] + "' does not exist");
 				return true;
 			}
 			else if (playerAccount.getTotal() < transactionAmount) {
-				player.sendMessage(Color.RED + "Insufficient funds!");
+				player.sendMessage(ChatColor.RED + "Insufficient funds!");
 				return true;
 			}
 			else if (otherPlayerAccount == null) {
-				player.sendMessage(Color.RED + "The account '" + otherPlayerInfo[0] + "' does not exist!");
+				player.sendMessage(ChatColor.RED + "The account '" + otherPlayerInfo[0] + "' does not exist!");
 				return true;
 			}
 			
@@ -65,7 +64,7 @@ public class PayCommand implements CommandExecutor{
 			
 			// Check if the player has enough money to pay
 			if (playerAccount.getTotal() < transactionAmount) {
-				player.sendMessage(Color.RED + "Insufficient funds!");
+				player.sendMessage(ChatColor.RED + "Insufficient funds!");
 				return true;
 			}
 			
@@ -77,7 +76,7 @@ public class PayCommand implements CommandExecutor{
 				
 				// Check if the account exists
 				if (otherPlayerAccount == null) {
-					player.sendMessage(Color.RED + "The account '" + otherPlayerInfo[0] + "' does not exist");
+					player.sendMessage(ChatColor.RED + "The account '" + otherPlayerInfo[0] + "' does not exist");
 					return true;
 				}
 				
@@ -95,7 +94,7 @@ public class PayCommand implements CommandExecutor{
 				User otherUser = bank.getUser(args[0]);
 				
 				if (otherUser == null) {
-					player.sendMessage(Color.RED + "The user '" + otherUser.getName() + "' does not exist");
+					player.sendMessage(ChatColor.RED + "The user '" + otherUser.getName() + "' does not exist");
 					return true;
 				}
 				
@@ -104,7 +103,7 @@ public class PayCommand implements CommandExecutor{
 				
 				//Check if account exists
 				if (otherPlayerAccount == null) {
-					player.sendMessage(Color.RED + "The account '" + otherPlayerAccount.getName() + "' does not exist");
+					player.sendMessage(ChatColor.RED + "The account '" + otherPlayerAccount.getName() + "' does not exist");
 					return true;
 				}
 				
@@ -121,7 +120,7 @@ public class PayCommand implements CommandExecutor{
 		else {
 			return false;
 		}
-		player.sendMessage(Color.GREEN + "Payment complete!");
+		player.sendMessage(ChatColor.GREEN + "Payment complete!");
 		return true;
 	}
 	

@@ -1,9 +1,9 @@
 package io.github.gokborg.commands;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,7 +24,7 @@ public class AccountCommand implements CommandExecutor{
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		SubCommand subCmd = subCommands.get(args[0].toLowerCase());
 		if (subCmd == null) {
-			sender.sendMessage(Color.RED + "That is not a valid sub-command!");
+			sender.sendMessage(ChatColor.RED + "That is not a valid sub-command!");
 			return true;
 		}
 		

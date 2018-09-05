@@ -1,7 +1,6 @@
 package io.github.gokborg.commands.acc;
 
-import java.awt.Color;
-
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +26,7 @@ public class CreateAccount extends SubCommand{
 		User playerUser = bank.getUser(player.getName());
 		
 		if (args.length >= 3) {
-			player.sendMessage(Color.RED + "Insufficient arguments");
+			player.sendMessage(ChatColor.RED + "Insufficient arguments");
 			return;
 		}
 		else if (args.length == 1) {
@@ -41,7 +40,7 @@ public class CreateAccount extends SubCommand{
 			
 			//Check if they already have a main account!
 			if (playerUser.getAccount(playerUser.getName()) != null) {
-				player.sendMessage(Color.RED + "The account already exists!");
+				player.sendMessage(ChatColor.RED + "The account already exists!");
 				return;
 			}
 			
