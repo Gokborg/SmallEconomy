@@ -36,6 +36,16 @@ public class PayCommand implements CommandExecutor{
 			try {
 				//Parse last argument to Integer
 				transactionAmount = Integer.parseInt(args[args.length-1]);
+				if(transactionAmount < 0)
+				{
+					sender.sendMessage(ChatColor.RED + "You can only transfer positive amounts.");
+					return true;
+				}
+				else if(transactionAmount == 0)
+				{
+					sender.sendMessage(ChatColor.GREEN + "Cannot transfer nothing.");
+					return true;
+				}
 			}
 			catch(NumberFormatException e) {
 				sender.sendMessage(ChatColor.RED + "Your last argument has to be an integer value.");
