@@ -25,8 +25,8 @@ public class CreateAccount extends SubCommand{
 		Player player = (Player) sender;
 		User playerUser = bank.getUser(player.getName());
 		
-		if (args.length >= 3) {
-			player.sendMessage(ChatColor.RED + "Insufficient arguments");
+		if (args.length > 2) {
+			player.sendMessage(ChatColor.RED + "Usage: /acc create [name]");
 			return;
 		}
 		else if (args.length == 1) {
@@ -48,7 +48,7 @@ public class CreateAccount extends SubCommand{
 			playerUser.addAccount(new Account(playerUser.getName()));
 			
 		}
-		else if (args.length == 2) {
+		else { //Only two args possible here
 			// args[2] has the account name
 			
 			//Create an account with args[2] as name.
