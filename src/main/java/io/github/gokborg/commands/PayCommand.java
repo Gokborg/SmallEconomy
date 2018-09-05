@@ -30,13 +30,26 @@ public class PayCommand implements CommandExecutor{
 			return true;
 		}
 		
-		if (args.length == 3 && isNum(args[2])) {
-			//Means they are doing -> /pay [account] <name[:account]> <amount>
+		Integer transactionAmount;
+		//Only allow 2 or 3 arguments
+		if (args.length > 1 && args.length < 4)	{
+			try {
+				//Parse last argument to Integer
+				transactionAmount = Integer.parseInt(args[args.length-1]);
+			}
+			catch(NumberFormatException e) {
+				sender.sendMessage(ChatColor.RED + "Your last argument has to be an integer value.");
+				return true;
+			}
+		}
+		else {
+			return false;
+		}
+		
+		if (args.length == 3) {
 			
 			// Splitting "name:account" into {name, account}
 			String[] otherPlayerInfo = args[1].split(":");
-			
-			int transactionAmount = Integer.parseInt(args[2]);
 			
 			Account playerAccount = playerUser.getAccount(args[0]);
 			User otherUser = bank.getUser(otherPlayerInfo[0]);
@@ -61,14 +74,11 @@ public class PayCommand implements CommandExecutor{
 			otherPlayerAccount.add(transactionAmount);
 			
 		}
-		else if (args.length == 2  && isNum(args[1])){
+		else { //Only 2 arguments are left
 			//Means they are doing -> /pay <name[:account]> <amount>
 			
 			// Splitting "name:account" into {name, account}
 			String[] otherPlayerInfo = args[0].split(":");
-			
-			//Getting the payment amount
-			int transactionAmount = Integer.parseInt(args[1]);
 			
 			Account playerAccount = playerUser.getAccount(player.getName());
 			
@@ -127,21 +137,8 @@ public class PayCommand implements CommandExecutor{
 				
 			}
 		}
-		else {
-			return false;
-		}
 		player.sendMessage(ChatColor.GREEN + "Payment complete!");
 		return true;
-	}
-	
-	private boolean isNum(String s) {
-		try {
-			Integer.parseInt(s);
-			return true;
-		}
-		catch(NumberFormatException e) {
-			return false;
-		}
 	}
 	
 }
