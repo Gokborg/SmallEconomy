@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.acc.CreateAccount;
 import io.github.gokborg.commands.acc.SubCommand;
@@ -22,6 +23,11 @@ public class AccountCommand implements CommandExecutor{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(ChatColor.RED + "You must be a player to run this command.");
+			return true;
+		}
+		
 		SubCommand subCmd = subCommands.get(args[0].toLowerCase());
 		if (subCmd == null) {
 			sender.sendMessage(ChatColor.RED + "That is not a valid sub-command!");

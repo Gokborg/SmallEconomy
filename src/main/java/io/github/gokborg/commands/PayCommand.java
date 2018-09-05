@@ -16,6 +16,11 @@ public class PayCommand implements CommandExecutor{
 		this.bank = bank;
 	}
 	public boolean onCommand(final CommandSender sender, Command command, String label, String[] args) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(ChatColor.RED + "You must be a player to run this command.");
+			return true;
+		}
+		
 		//Get the player's account
 		Player player = (Player) sender;
 		User playerUser = bank.getUser(player.getName());
