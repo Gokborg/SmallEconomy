@@ -28,7 +28,7 @@ public class SmallEconomy extends JavaLoaderBukkitProject{
 		return new BukkitCommand[] {
 				new BukkitCommand("pay", "Pay a player a specific amount.", "Usage: /pay [account] <account> <amount>.",
 						"jl.economy.pay", (String[])null, new PayCommand(bank), null),
-				new BukkitCommand("acc", "Account command", "Usage: /acc [create] []",
+				new BukkitCommand("acc", "Account command", "Usage: /acc <create> ...",
 						"jl.economy.pay", (String[])null, new AccountCommand(bank), null)
 				
 			};
