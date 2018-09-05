@@ -22,25 +22,24 @@ public class CreateAccount extends SubCommand{
 		 * args[0] = create
 		 * args[1] = account_name
 		 */
+		if (args.length > 2) {
+			sender.sendMessage(ChatColor.RED + "Usage: /acc create [name]");
+			return;
+		}
+		
 		Player player = (Player) sender;
 		User playerUser = bank.getUser(player.getName());
 		
-		if (args.length > 2) {
-			player.sendMessage(ChatColor.RED + "Usage: /acc create [name]");
-			return;
+		//Create a User if the sender doesn't have one.	
+		if (playerUser == null) {
+			playerUser = new User(player.getName(), player.getUniqueId());
+			bank.addPlayerAccount(playerUser);
 		}
-		else if (args.length == 1) {
-			//Create an account with default MC name. First check if account already exists else create it
-			
-			//Create a user if they don't have one.	
-			if (playerUser == null) {
-				playerUser = new User(player.getName(), player.getUniqueId());
-				bank.addPlayerAccount(playerUser);
-			}
-			
+		
+		if (args.length == 1) {
 			//Check if they already have a main account!
 			if (playerUser.getAccount(playerUser.getName()) != null) {
-				player.sendMessage(ChatColor.RED + "The account already exists!");
+				player.sendMessage(ChatColor.RED + "You already have an account!");
 				return;
 			}
 			
