@@ -19,12 +19,6 @@ public class PayCommand implements CommandExecutor{
 		this.bank = bank;
 	}
 	public boolean onCommand(final CommandSender sender, Command command, String label, String[] args) {
-		//TODO: Experiment!
-		if (!command.getName().equalsIgnoreCase("pay")) {
-			//&& !(sender instanceof Player)
-			return false;
-		}
-		
 		//Get the player's account
 		Player player = (Player) sender;
 		User playerUser = bank.getUser(player.getName());

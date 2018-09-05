@@ -22,10 +22,6 @@ public class AccountCommand implements CommandExecutor{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (!command.getName().equalsIgnoreCase("acc")) {
-			return false;
-		}
-		
 		SubCommand subCmd = subCommands.get(args[0].toLowerCase());
 		if (subCmd == null) {
 			sender.sendMessage(Color.RED + "That is not a valid sub-command!");
