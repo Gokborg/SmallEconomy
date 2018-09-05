@@ -1,4 +1,4 @@
-package io.github.gokborg.main;
+package io.github.gokborg;
 
 import io.github.gokborg.commands.AccountCommand;
 import io.github.gokborg.commands.PayCommand;
