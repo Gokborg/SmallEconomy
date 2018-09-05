@@ -25,6 +25,11 @@ public class PayCommand implements CommandExecutor{
 		Player player = (Player) sender;
 		User playerUser = bank.getUser(player.getName());
 
+		if (playerUser == null) {
+			sender.sendMessage(ChatColor.RED + "Please first create an account at the central bank ((/acc create) or nag Gok), to use this command.");
+			return true;
+		}
+		
 		if (args.length == 3 && isNum(args[2])) {
 			//Means they are doing -> /pay [account] <name[:account]> <amount>
 			
