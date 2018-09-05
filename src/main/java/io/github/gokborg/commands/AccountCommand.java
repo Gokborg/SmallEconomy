@@ -28,6 +28,11 @@ public class AccountCommand implements CommandExecutor{
 			return true;
 		}
 		
+		if (args.length < 1) {
+			//Print the usage.
+			return false;
+		}
+		
 		SubCommand subCmd = subCommands.get(args[0].toLowerCase());
 		if (subCmd == null) {
 			sender.sendMessage(ChatColor.RED + "That is not a valid sub-command!");
