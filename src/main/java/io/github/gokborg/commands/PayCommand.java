@@ -58,24 +58,32 @@ public class PayCommand implements CommandExecutor{
 		
 		if (args.length == 3) {
 			
-			// Splitting "name:account" into {name, account}
-			String[] otherPlayerInfo = args[1].split(":");
-			
 			Account playerAccount = playerUser.getAccount(args[0]);
-			User otherUser = bank.getUser(otherPlayerInfo[0]);
-			Account otherPlayerAccount = bank.getAccount(otherUser, otherPlayerInfo[1], otherUser.getUUID());
 			
-			
-			//Verifying both accounts
 			if (playerAccount == null) {
-				player.sendMessage(ChatColor.RED + "The account '" + args[0] + "' does not exist");
+				player.sendMessage(ChatColor.RED + "You have no account '" + args[0] + "'");
 				return true;
 			}
-			else if (playerAccount.getTotal() < transactionAmount) {
+			
+			// Check if the player has enough money to pay
+			if (playerAccount.getTotal() < transactionAmount) {
 				player.sendMessage(ChatColor.RED + "Insufficient funds!");
 				return true;
 			}
-			else if (otherPlayerAccount == null) {
+			
+			// Splitting "name:account" into {name, account}
+			String[] otherPlayerInfo = args[1].split(":");
+			
+			User otherUser = bank.getUser(otherPlayerInfo[0]);
+			
+			if (otherUser == null) {
+				player.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
+				return true;
+			}
+			
+			Account otherPlayerAccount = bank.getAccount(otherUser, otherPlayerInfo.length == 1 ? otherUser.getName() : otherPlayerInfo[1], otherUser.getUUID());
+			
+			if (otherPlayerAccount == null) {
 				player.sendMessage(ChatColor.RED + "The account '" + otherPlayerInfo[0] + "' does not exist!");
 				return true;
 			}
@@ -87,9 +95,6 @@ public class PayCommand implements CommandExecutor{
 		else { //Only 2 arguments are left
 			//Means they are doing -> /pay <name[:account]> <amount>
 			
-			// Splitting "name:account" into {name, account}
-			String[] otherPlayerInfo = args[0].split(":");
-			
 			Account playerAccount = playerUser.getAccount(player.getName());
 			
 			// Check if the player has enough money to pay
@@ -98,15 +103,23 @@ public class PayCommand implements CommandExecutor{
 				return true;
 			}
 			
+			// Splitting "name:account" into {name, account}
+			String[] otherPlayerInfo = args[0].split(":");
+			
 			if (otherPlayerInfo.length == 2) {
 				// Meaning they typed -> /pay name:account amount
 				User otherUser = bank.getUser(otherPlayerInfo[0]);
+				
+				if (otherUser == null) {
+					player.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
+					return true;
+				}
 				
 				Account otherPlayerAccount = bank.getAccount(otherUser, otherPlayerInfo[1], otherUser.getUUID());
 				
 				// Check if the account exists
 				if (otherPlayerAccount == null) {
-					player.sendMessage(ChatColor.RED + "The account '" + otherPlayerInfo[0] + "' does not exist");
+					player.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no account '" + otherPlayerInfo[1] + "'");
 					return true;
 				}
 				
@@ -121,10 +134,10 @@ public class PayCommand implements CommandExecutor{
 			else if (otherPlayerInfo.length == 1) {
 				// Meaning they typed -> /pay name amount
 				
-				User otherUser = bank.getUser(args[0]);
+				User otherUser = bank.getUser(otherPlayerInfo[0]);
 				
 				if (otherUser == null) {
-					player.sendMessage(ChatColor.RED + "The user '" + otherUser.getName() + "' does not exist");
+					player.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
 					return true;
 				}
 				
@@ -133,7 +146,7 @@ public class PayCommand implements CommandExecutor{
 				
 				//Check if account exists
 				if (otherPlayerAccount == null) {
-					player.sendMessage(ChatColor.RED + "The account '" + otherPlayerAccount.getName() + "' does not exist");
+					player.sendMessage(ChatColor.RED + "The account does not exist, this should not have happend, please bugreport to Gokborg");
 					return true;
 				}
 				
