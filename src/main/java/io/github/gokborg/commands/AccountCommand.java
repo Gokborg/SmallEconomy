@@ -44,7 +44,7 @@ public class AccountCommand implements CommandExecutor
 			return true;
 		}
 		
-		subCmd.process(sender, command, label, args);
+		subCmd.process(sender, args);
 		
 		return true;
 	}

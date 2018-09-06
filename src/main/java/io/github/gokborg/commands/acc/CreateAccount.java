@@ -1,7 +1,6 @@
 package io.github.gokborg.commands.acc;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,7 +18,7 @@ public class CreateAccount extends SubCommand
 	}
 	
 	@Override
-	public void process(CommandSender sender, Command command, String label, String[] args)
+	public void process(CommandSender sender, String[] args)
 	{
 		/*
 		 * args[0] = create
