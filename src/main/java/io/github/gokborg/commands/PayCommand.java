@@ -70,6 +70,12 @@ public class PayCommand implements CommandExecutor
 			{
 				Account playerAccount = bank.parseAccountID(args[0]);
 				
+				if(!playerAccount.hasAccess(playerUser))
+				{
+					sender.sendMessage(ChatColor.RED + "You have no permission to transfer from this account.");
+					return true;
+				}
+				
 				//Check if the player has enough money to pay
 				if(playerAccount.getTotal() < transactionAmount)
 				{
