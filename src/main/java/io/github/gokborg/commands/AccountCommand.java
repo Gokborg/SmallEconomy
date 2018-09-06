@@ -13,28 +13,33 @@ import io.github.gokborg.commands.acc.CreateAccount;
 import io.github.gokborg.commands.acc.SubCommand;
 import io.github.gokborg.components.Bank;
 
-public class AccountCommand implements CommandExecutor{
-	
+public class AccountCommand implements CommandExecutor
+{
 	private Map<String, SubCommand> subCommands = new HashMap<>();
 	
-	public AccountCommand(Bank bank) {
+	public AccountCommand(Bank bank)
+	{
 		subCommands.put("create", new CreateAccount(bank));
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (!(sender instanceof Player)) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+	{
+		if(!(sender instanceof Player))
+		{
 			sender.sendMessage(ChatColor.RED + "You must be a player to run this command.");
 			return true;
 		}
 		
-		if (args.length < 1) {
+		if(args.length < 1)
+		{
 			//Print the usage.
 			return false;
 		}
 		
 		SubCommand subCmd = subCommands.get(args[0].toLowerCase());
-		if (subCmd == null) {
+		if(subCmd == null)
+		{
 			sender.sendMessage(ChatColor.RED + "That is not a valid sub-command!");
 			return true;
 		}

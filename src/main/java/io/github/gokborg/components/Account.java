@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Account {
+public class Account
+{
 	private String name;
 	
 	//List of which uuid's have access to this account
@@ -12,38 +13,43 @@ public class Account {
 	
 	private int total = 0;
 	
-	public Account(String name) {
+	public Account(String name)
+	{
 		this.name = name;
 	}
 	
-	public boolean hasAccess(UUID uuid) {
+	public boolean hasAccess(UUID uuid)
+	{
 		return players.contains(uuid);
 	}
 	
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
-
-	public void setName(String name) {
+	
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 	
-	
-	public void add(int amount) {
+	public void add(int amount)
+	{
 		total += amount;
-		
 	}
 	
-	public void remove(int amount) {
+	public void remove(int amount)
+	{
 		total -= amount;
 	}
-
-	public int getTotal() {
+	
+	public int getTotal()
+	{
 		return total;
 	}
-
-	public void setTotal(int total) {
+	
+	public void setTotal(int total)
+	{
 		this.total = total;
 	}
-	
 }

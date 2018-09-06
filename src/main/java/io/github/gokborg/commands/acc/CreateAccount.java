@@ -9,20 +9,24 @@ import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
 
-public class CreateAccount extends SubCommand{
+public class CreateAccount extends SubCommand
+{
 	private Bank bank;
-	public CreateAccount(Bank bank) {
+	
+	public CreateAccount(Bank bank)
+	{
 		this.bank = bank;
 	}
 	
-	
 	@Override
-	public void process(CommandSender sender, Command command, String label, String[] args) {
+	public void process(CommandSender sender, Command command, String label, String[] args)
+	{
 		/*
 		 * args[0] = create
 		 * args[1] = account_name
 		 */
-		if (args.length > 2) {
+		if(args.length > 2)
+		{
 			sender.sendMessage(ChatColor.RED + "Usage: /acc create [name]");
 			return;
 		}
@@ -31,29 +35,30 @@ public class CreateAccount extends SubCommand{
 		User playerUser = bank.getUser(player.getName());
 		
 		//Create a User if the sender doesn't have one.	
-		if (playerUser == null) {
+		if(playerUser == null)
+		{
 			playerUser = new User(player.getName(), player.getUniqueId());
 			bank.addPlayerAccount(playerUser);
 		}
 		
-		if (args.length == 1) {
+		if(args.length == 1)
+		{
 			//Check if they already have a main account!
-			if (playerUser.getAccount(playerUser.getName()) != null) {
+			if(playerUser.getAccount(playerUser.getName()) != null)
+			{
 				player.sendMessage(ChatColor.RED + "You already have an account!");
 				return;
 			}
 			
 			//Creates an account under that user using their name.
 			playerUser.addAccount(new Account(playerUser.getName()));
-			
 		}
-		else { //Only two args possible here
+		else
+		{ //Only two args possible here
 			// args[2] has the account name
 			
 			//Create an account with args[2] as name.
 			playerUser.addAccount(new Account(args[2]));
 		}
-		
 	}
-	
 }
