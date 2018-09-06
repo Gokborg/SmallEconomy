@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import io.github.gokborg.exceptions.AccountNotFoundException;
+
 //TODO: Prevent creating more than 5 accounts.
 public class Bank
 {
@@ -34,11 +36,40 @@ public class Bank
 		return true;
 	}
 	
-	//TODO: Get accounts by proper account name: <playername>[:<sub-account-name>]
-	public Account getAccount(User userAccount, String accountName, UUID playerUUID)
+	public Account parseAccountID(String accountID) throws AccountNotFoundException
 	{
-		Account requestedAccount = userAccount.getAccount(accountName);
-		return requestedAccount == null || !requestedAccount.hasAccess(playerUUID) ? null : requestedAccount;
+		int doublePointIndex = accountID.indexOf(':');
+		
+		if(doublePointIndex != -1) //Format: <username>
+		{
+			User accountOwner = userByName.get(accountID.toLowerCase());
+			if(accountOwner == null)
+			{
+				throw new AccountNotFoundException("User '" + accountID + "' has no accounts.");
+			}
+			
+			//TODO: Assume that it won't ever be null, or change to field.
+			return accountOwner.getMainAccount();
+		}
+		else //Format: <username>:<account-name>
+		{
+			String userName = accountID.substring(0, doublePointIndex);
+			String accountName = accountID.substring(doublePointIndex);
+			
+			User accountOwner = userByName.get(userName.toLowerCase());
+			if(accountOwner == null)
+			{
+				throw new AccountNotFoundException("User '" + userName + "' has no accounts.");
+			}
+			
+			Account account = accountOwner.getAccount(accountName);
+			if(account == null)
+			{
+				throw new AccountNotFoundException("User '" + userName + "' has no account '" + accountName + "'.");
+			}
+			
+			return account;
+		}
 	}
 	
 	public User getUser(UUID uuid)

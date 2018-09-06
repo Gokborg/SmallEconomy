@@ -18,7 +18,7 @@ public class User
 	{
 		this.name = playerName;
 		this.playerUUID = playerUUID;
-		subAccounts.put(name, new Account(name));
+		subAccounts.put(name.toLowerCase(), new Account(name));
 	}
 	
 	public UUID getUUID()
@@ -38,22 +38,28 @@ public class User
 	
 	public Account getAccount(String name)
 	{
-		return subAccounts.get(name);
+		return subAccounts.get(name.toLowerCase());
+	}
+	
+	public Account getMainAccount()
+	{
+		//TODO: Change to main account field:
+		return subAccounts.get(name.toLowerCase());
 	}
 	
 	//TODO: As long as accounts don't swap owners, they should not be created outside this object
 	public void addAccount(Account account)
 	{
-		subAccounts.put(account.getName(), account);
+		subAccounts.put(account.getName().toLowerCase(), account);
 	}
 	
 	public void removeAccount(String nameOfAccount)
 	{
-		subAccounts.remove(nameOfAccount);
+		subAccounts.remove(nameOfAccount.toLowerCase());
 	}
 	
 	public void removeAccount(Account account)
 	{
-		subAccounts.remove(account.getName(), account);
+		subAccounts.remove(account.getName().toLowerCase(), account);
 	}
 }
