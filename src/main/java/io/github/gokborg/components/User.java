@@ -36,11 +36,6 @@ public class User
 		return name;
 	}
 	
-	public int getSize()
-	{
-		return subAccounts.size();
-	}
-	
 	public Account getAccount(String name)
 	{
 		return subAccounts.get(name.toLowerCase());
@@ -63,8 +58,7 @@ public class User
 			throw new CannotCreateAccountException("You already have an account with name '" + accountName + "'.");
 		}
 		
-		Account account = new Account(accountName);
-		subAccounts.put(accountName.toLowerCase(), account);
+		subAccounts.put(accountName.toLowerCase(), new Account(accountName));
 	}
 	
 	public void removeAccount(String nameOfAccount)

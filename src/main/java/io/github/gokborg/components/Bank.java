@@ -11,11 +11,6 @@ public class Bank
 	private Map<String, User> userByName = new HashMap<>();
 	private Map<UUID, User> userByUUID = new HashMap<>();
 	
-	public int getSize()
-	{
-		return userByUUID.size();
-	}
-	
 	public User createUser(String username, UUID uuid)
 	{
 		User user = new User(username, uuid);
@@ -24,6 +19,7 @@ public class Bank
 		return user;
 	}
 	
+	//Returns if the account has been removed.
 	public boolean removePlayerAccount(UUID uuid)
 	{
 		User removedUser = userByUUID.remove(uuid);

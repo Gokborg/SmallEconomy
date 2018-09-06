@@ -32,8 +32,7 @@ public class PayCommand implements CommandExecutor
 		User playerUser = bank.getUser(((Player) sender).getUniqueId());
 		if(playerUser == null)
 		{
-			//TODO: Improve feedback
-			sender.sendMessage(ChatColor.RED + "Please first create an account at the central bank ((/acc create) or nag Gok), to use this command.");
+			sender.sendMessage(ChatColor.RED + "Please first create an account '/acc create', to use this command.");
 			return true;
 		}
 		
@@ -55,7 +54,7 @@ public class PayCommand implements CommandExecutor
 			}
 			else if(transactionAmount == 0)
 			{
-				sender.sendMessage(ChatColor.GREEN + "Cannot transfer nothing.");
+				sender.sendMessage(ChatColor.RED + "Cannot transfer nothing.");
 				return true;
 			}
 		}
@@ -71,10 +70,10 @@ public class PayCommand implements CommandExecutor
 			{
 				Account playerAccount = bank.parseAccountID(args[0]);
 				
-				// Check if the player has enough money to pay
+				//Check if the player has enough money to pay
 				if(playerAccount.getTotal() < transactionAmount)
 				{
-					sender.sendMessage(ChatColor.RED + "Insufficient funds!");
+					sender.sendMessage(ChatColor.RED + "Insufficient funds.");
 					return true;
 				}
 				
@@ -91,7 +90,7 @@ public class PayCommand implements CommandExecutor
 				// Check if the player has enough money to pay
 				if(playerAccount.getTotal() < transactionAmount)
 				{
-					sender.sendMessage(ChatColor.RED + "Insufficient funds!");
+					sender.sendMessage(ChatColor.RED + "Insufficient funds.");
 					return true;
 				}
 				
@@ -103,7 +102,7 @@ public class PayCommand implements CommandExecutor
 			}
 			
 			//Print positive feedback, nothing has been aborted
-			sender.sendMessage(ChatColor.GREEN + "Payment complete!");
+			sender.sendMessage(ChatColor.GREEN + "Payment complete.");
 		}
 		catch(AccountNotFoundException e)
 		{
