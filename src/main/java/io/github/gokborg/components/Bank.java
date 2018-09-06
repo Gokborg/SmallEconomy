@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import io.github.gokborg.exceptions.AccountNotFoundException;
 
-//TODO: Prevent creating more than 5 accounts.
 public class Bank
 {
 	private Map<String, User> userByName = new HashMap<>();
@@ -17,11 +16,12 @@ public class Bank
 		return userByUUID.size();
 	}
 	
-	//TODO: Users should be created in the bank
-	public void addPlayerAccount(User user)
+	public User createUser(String username, UUID uuid)
 	{
+		User user = new User(username, uuid);
 		userByName.put(user.getName(), user);
 		userByUUID.put(user.getUUID(), user);
+		return user;
 	}
 	
 	public boolean removePlayerAccount(UUID uuid)

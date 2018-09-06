@@ -4,14 +4,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
+import io.github.gokborg.exceptions.CannotCreateAccountException;
 
 //TODO: Do noth create the main account as sub-account with playername
 public class CreateAccount extends SubCommand
 {
-	private Bank bank;
+	private final Bank bank;
 	
 	public CreateAccount(Bank bank)
 	{
@@ -30,30 +30,25 @@ public class CreateAccount extends SubCommand
 		Player player = (Player) sender;
 		User playerUser = bank.getUser(player.getUniqueId());
 		
-		//Create a User if the sender doesn't have one.	
+		//Create a User for the executing player if he has none.
 		if(playerUser == null)
 		{
-			playerUser = new User(player.getName(), player.getUniqueId());
-			bank.addPlayerAccount(playerUser);
+			playerUser = bank.createUser(player.getName(), player.getUniqueId());
+			player.sendMessage(ChatColor.GREEN + "Created personal account.");
 		}
 		
-		if(args.length == 0)
+		if(args.length == 1)
 		{
-			//Check if they already have a main account!
-			//TODO: Obsolte, each User should always have a main account.
-			if(playerUser.getAccount(playerUser.getName()) != null)
+			try
 			{
-				player.sendMessage(ChatColor.RED + "You already have an account!");
-				return;
+				//Create an account with args[0] as name.
+				playerUser.createAccount(args[0]);
+				player.sendMessage(ChatColor.GREEN + "Created account '" + args[0] + "'.");
 			}
-			
-			//Creates an account under that user using their name.
-			playerUser.addAccount(new Account(playerUser.getName()));
-		}
-		else //Only one args possible here
-		{
-			//Create an account with args[0] as name.
-			playerUser.addAccount(new Account(args[0]));
+			catch(CannotCreateAccountException e)
+			{
+				sender.sendMessage(ChatColor.RED + e.getMessage());
+			}
 		}
 	}
 }

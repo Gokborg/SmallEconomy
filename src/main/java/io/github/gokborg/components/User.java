@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import io.github.gokborg.exceptions.CannotCreateAccountException;
+
 //TODO: Save main account in own field
 public class User
 {
@@ -47,10 +49,20 @@ public class User
 		return subAccounts.get(name.toLowerCase());
 	}
 	
-	//TODO: As long as accounts don't swap owners, they should not be created outside this object
-	public void addAccount(Account account)
+	public void createAccount(String accountName) throws CannotCreateAccountException
 	{
-		subAccounts.put(account.getName().toLowerCase(), account);
+		if(subAccounts.size() > 5)
+		{
+			throw new CannotCreateAccountException("You may only have 5 sub accounts.");
+		}
+		
+		if(subAccounts.containsKey(accountName.toLowerCase()))
+		{
+			throw new CannotCreateAccountException("You already have an account with name '" + accountName + "'.");
+		}
+		
+		Account account = new Account(accountName);
+		subAccounts.put(accountName.toLowerCase(), account);
 	}
 	
 	public void removeAccount(String nameOfAccount)
