@@ -23,7 +23,7 @@ public class User
 		this.playerUUID = playerUUID;
 		
 		//The main account has no name, its linked to the User.
-		mainAccount = new Account(null);
+		mainAccount = new Account();
 	}
 	
 	public UUID getUUID()

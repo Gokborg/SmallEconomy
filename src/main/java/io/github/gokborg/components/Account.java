@@ -13,7 +13,10 @@ public class Account
 	
 	private int total;
 	
-	//TODO: Add empty constructor for main account
+	public Account()
+	{
+	}
+	
 	public Account(String name)
 	{
 		this.name = name;
