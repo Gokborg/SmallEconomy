@@ -13,7 +13,7 @@ public class Account
 	//TODO: Store users instead, since each one should have its own money, or at least account.
 	private List<UUID> players = new ArrayList<>();
 	
-	private int total = 0;
+	private int total;
 	
 	//TODO: Add empty constructor for main account
 	public Account(String name)
@@ -51,12 +51,5 @@ public class Account
 	public int getTotal()
 	{
 		return total;
-	}
-	
-	//TODO: Should not be used under any means
-	@Deprecated
-	public void setTotal(int total)
-	{
-		this.total = total;
 	}
 }

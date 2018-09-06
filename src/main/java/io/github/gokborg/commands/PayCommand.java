@@ -12,8 +12,7 @@ import io.github.gokborg.components.User;
 
 public class PayCommand implements CommandExecutor
 {
-	//TODO: Make final
-	private Bank bank;
+	private final Bank bank;
 	
 	public PayCommand(Bank bank)
 	{
@@ -29,10 +28,7 @@ public class PayCommand implements CommandExecutor
 			return true;
 		}
 		
-		//TODO: Get by UUID
-		Player player = (Player) sender;
-		User playerUser = bank.getUser(player.getName());
-		
+		User playerUser = bank.getUser(((Player) sender).getName());
 		if(playerUser == null)
 		{
 			//TODO: Improve feedback
@@ -40,35 +36,32 @@ public class PayCommand implements CommandExecutor
 			return true;
 		}
 		
-		Integer transactionAmount;
-		//TODO: Swap condition
 		//Only allow 2 or 3 arguments
-		if(args.length > 1 && args.length < 4)
+		if(args.length != 2 && args.length != 3)
 		{
-			try
+			return false;
+		}
+		
+		Integer transactionAmount;
+		try
+		{
+			//Parse last argument to Integer
+			transactionAmount = Integer.parseInt(args[args.length - 1]);
+			if(transactionAmount < 0)
 			{
-				//Parse last argument to Integer
-				transactionAmount = Integer.parseInt(args[args.length - 1]);
-				if(transactionAmount < 0)
-				{
-					sender.sendMessage(ChatColor.RED + "You can only transfer positive amounts.");
-					return true;
-				}
-				else if(transactionAmount == 0)
-				{
-					sender.sendMessage(ChatColor.GREEN + "Cannot transfer nothing.");
-					return true;
-				}
+				sender.sendMessage(ChatColor.RED + "You can only transfer positive amounts.");
+				return true;
 			}
-			catch(NumberFormatException e)
+			else if(transactionAmount == 0)
 			{
-				sender.sendMessage(ChatColor.RED + "Your last argument has to be an integer value.");
+				sender.sendMessage(ChatColor.GREEN + "Cannot transfer nothing.");
 				return true;
 			}
 		}
-		else
+		catch(NumberFormatException e)
 		{
-			return false;
+			sender.sendMessage(ChatColor.RED + "Your last argument has to be an integer value.");
+			return true;
 		}
 		
 		if(args.length == 3)
@@ -77,14 +70,14 @@ public class PayCommand implements CommandExecutor
 			
 			if(playerAccount == null)
 			{
-				player.sendMessage(ChatColor.RED + "You have no account '" + args[0] + "'");
+				sender.sendMessage(ChatColor.RED + "You have no account '" + args[0] + "'");
 				return true;
 			}
 			
 			// Check if the player has enough money to pay
 			if(playerAccount.getTotal() < transactionAmount)
 			{
-				player.sendMessage(ChatColor.RED + "Insufficient funds!");
+				sender.sendMessage(ChatColor.RED + "Insufficient funds!");
 				return true;
 			}
 			
@@ -95,7 +88,7 @@ public class PayCommand implements CommandExecutor
 			
 			if(otherUser == null)
 			{
-				player.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
+				sender.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
 				return true;
 			}
 			
@@ -103,7 +96,7 @@ public class PayCommand implements CommandExecutor
 			
 			if(otherPlayerAccount == null)
 			{
-				player.sendMessage(ChatColor.RED + "The account '" + otherPlayerInfo[0] + "' does not exist!");
+				sender.sendMessage(ChatColor.RED + "The account '" + otherPlayerInfo[0] + "' does not exist!");
 				return true;
 			}
 			
@@ -115,12 +108,12 @@ public class PayCommand implements CommandExecutor
 		{ //Only 2 arguments are left
 			//Means they are doing -> /pay <name[:account]> <amount>
 			
-			Account playerAccount = playerUser.getAccount(player.getName());
+			Account playerAccount = playerUser.getAccount(sender.getName());
 			
 			// Check if the player has enough money to pay
 			if(playerAccount.getTotal() < transactionAmount)
 			{
-				player.sendMessage(ChatColor.RED + "Insufficient funds!");
+				sender.sendMessage(ChatColor.RED + "Insufficient funds!");
 				return true;
 			}
 			
@@ -134,7 +127,7 @@ public class PayCommand implements CommandExecutor
 				
 				if(otherUser == null)
 				{
-					player.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
+					sender.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
 					return true;
 				}
 				
@@ -143,7 +136,7 @@ public class PayCommand implements CommandExecutor
 				// Check if the account exists
 				if(otherPlayerAccount == null)
 				{
-					player.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no account '" + otherPlayerInfo[1] + "'");
+					sender.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no account '" + otherPlayerInfo[1] + "'");
 					return true;
 				}
 				
@@ -159,7 +152,7 @@ public class PayCommand implements CommandExecutor
 				
 				if(otherUser == null)
 				{
-					player.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
+					sender.sendMessage(ChatColor.RED + "The user '" + otherPlayerInfo[0] + "' has no accounts");
 					return true;
 				}
 				
@@ -169,7 +162,7 @@ public class PayCommand implements CommandExecutor
 				//Check if account exists
 				if(otherPlayerAccount == null)
 				{
-					player.sendMessage(ChatColor.RED + "The account does not exist, this should not have happend, please bugreport to Gokborg");
+					sender.sendMessage(ChatColor.RED + "The account does not exist, this should not have happend, please bugreport to Gokborg");
 					return true;
 				}
 				
@@ -180,7 +173,7 @@ public class PayCommand implements CommandExecutor
 		}
 		
 		//Print positive feedback, nothing has been aborted
-		player.sendMessage(ChatColor.GREEN + "Payment complete!");
+		sender.sendMessage(ChatColor.GREEN + "Payment complete!");
 		return true;
 	}
 }

@@ -41,9 +41,7 @@ public class AccountCommand implements CommandExecutor
 		SubCommand subCmd = subCommands.get(args[0].toLowerCase());
 		if(subCmd == null)
 		{
-			//TODO: Print usage:
-			sender.sendMessage(ChatColor.RED + "That is not a valid sub-command!");
-			return true;
+			return false;
 		}
 		
 		//Remove first arguement
