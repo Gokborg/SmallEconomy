@@ -6,18 +6,22 @@ import java.util.UUID;
 
 public class Account
 {
+	//TODO: Either move to User, or allow "null" for main accounts
 	private String name;
 	
-	//List of which uuid's have access to this account
+	//List of players which have access to transfer money from this account
+	//TODO: Store users instead, since each one should have its own money, or at least account.
 	private List<UUID> players = new ArrayList<>();
 	
 	private int total = 0;
 	
+	//TODO: Add empty constructor for main account
 	public Account(String name)
 	{
 		this.name = name;
 	}
 	
+	//TODO: Replace with User
 	public boolean hasAccess(UUID uuid)
 	{
 		return players.contains(uuid);
@@ -28,6 +32,7 @@ public class Account
 		return name;
 	}
 	
+	//TODO: Add subcommand to rename a sub-account
 	public void setName(String name)
 	{
 		this.name = name;
@@ -48,6 +53,8 @@ public class Account
 		return total;
 	}
 	
+	//TODO: Should not be used under any means
+	@Deprecated
 	public void setTotal(int total)
 	{
 		this.total = total;

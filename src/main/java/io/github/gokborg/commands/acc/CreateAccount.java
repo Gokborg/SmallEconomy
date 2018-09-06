@@ -8,6 +8,7 @@ import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
 
+//TODO: Do noth create the main account as sub-account with playername
 public class CreateAccount extends SubCommand
 {
 	private Bank bank;
@@ -39,6 +40,7 @@ public class CreateAccount extends SubCommand
 		if(args.length == 0)
 		{
 			//Check if they already have a main account!
+			//TODO: Obsolte, each User should always have a main account.
 			if(playerUser.getAccount(playerUser.getName()) != null)
 			{
 				player.sendMessage(ChatColor.RED + "You already have an account!");

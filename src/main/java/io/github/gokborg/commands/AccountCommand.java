@@ -25,21 +25,23 @@ public class AccountCommand implements CommandExecutor
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
+		//Check if sender is a player, only players need accounts
 		if(!(sender instanceof Player))
 		{
 			sender.sendMessage(ChatColor.RED + "You must be a player to run this command.");
 			return true;
 		}
 		
+		//Check if sub command given
 		if(args.length < 1)
 		{
-			//Print the usage.
 			return false;
 		}
 		
 		SubCommand subCmd = subCommands.get(args[0].toLowerCase());
 		if(subCmd == null)
 		{
+			//TODO: Print usage:
 			sender.sendMessage(ChatColor.RED + "That is not a valid sub-command!");
 			return true;
 		}

@@ -12,6 +12,7 @@ import io.github.gokborg.components.User;
 
 public class PayCommand implements CommandExecutor
 {
+	//TODO: Make final
 	private Bank bank;
 	
 	public PayCommand(Bank bank)
@@ -21,23 +22,26 @@ public class PayCommand implements CommandExecutor
 	
 	public boolean onCommand(final CommandSender sender, Command command, String label, String[] args)
 	{
+		//Check if sender is a player, only players have accounts and may do transactions
 		if(!(sender instanceof Player))
 		{
 			sender.sendMessage(ChatColor.RED + "You must be a player to run this command.");
 			return true;
 		}
 		
-		//Get the player's account
+		//TODO: Get by UUID
 		Player player = (Player) sender;
 		User playerUser = bank.getUser(player.getName());
 		
 		if(playerUser == null)
 		{
+			//TODO: Improve feedback
 			sender.sendMessage(ChatColor.RED + "Please first create an account at the central bank ((/acc create) or nag Gok), to use this command.");
 			return true;
 		}
 		
 		Integer transactionAmount;
+		//TODO: Swap condition
 		//Only allow 2 or 3 arguments
 		if(args.length > 1 && args.length < 4)
 		{
@@ -103,6 +107,7 @@ public class PayCommand implements CommandExecutor
 				return true;
 			}
 			
+			//Finally, transfer the money
 			playerAccount.remove(transactionAmount);
 			otherPlayerAccount.add(transactionAmount);
 		}
@@ -142,12 +147,9 @@ public class PayCommand implements CommandExecutor
 					return true;
 				}
 				
-				//Add to the other player the transaction amount
+				//Finally, transfer the money
 				otherPlayerAccount.add(transactionAmount);
-				
-				//Remove from player the transaction Amount
 				playerAccount.remove(transactionAmount);
-				
 			}
 			else if(otherPlayerInfo.length == 1)
 			{
@@ -171,15 +173,13 @@ public class PayCommand implements CommandExecutor
 					return true;
 				}
 				
-				//Removing the amount from the player.
+				//Finally, transfer the money
 				playerAccount.remove(transactionAmount);
-				
-				//Adding the amount to the other account
 				otherPlayerAccount.add(transactionAmount);
-				
-				//Send a message to the player indicating that the transaction has been complete.
 			}
 		}
+		
+		//Print positive feedback, nothing has been aborted
 		player.sendMessage(ChatColor.GREEN + "Payment complete!");
 		return true;
 	}

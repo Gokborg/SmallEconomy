@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+//TODO: Save main account in own field
 public class User
 {
-	//Don't let players create accounts with their own name.
+	//The key refers to the sub-account-name: <player>:<sub-account-name>
 	private Map<String, Account> subAccounts = new HashMap<>();
 	
+	//The last seen name on the server
 	private final String name;
 	private final UUID playerUUID;
 	
@@ -39,18 +41,17 @@ public class User
 		return subAccounts.get(name);
 	}
 	
+	//TODO: As long as accounts don't swap owners, they should not be created outside this object
 	public void addAccount(Account account)
 	{
 		subAccounts.put(account.getName(), account);
 	}
 	
-	//Based on name
 	public void removeAccount(String nameOfAccount)
 	{
 		subAccounts.remove(nameOfAccount);
 	}
 	
-	//Based on object
 	public void removeAccount(Account account)
 	{
 		subAccounts.remove(account.getName(), account);

@@ -13,23 +13,23 @@ public class SmallEconomy extends JavaLoaderBukkitProject
 	@Override
 	public void onLoad()
 	{
-		//Load in a bank from a file if there is a bank file available
+		//TODO: Import Export
 		bank = new Bank();
 	}
 	
 	@Override
 	public String getVersion()
 	{
-		// TODO Auto-generated method stub
-		return "0.0.1-SNAPSHOT";
+		//TODO: Adjust Pom to change version.
+		return "1";
 	}
 	
 	@Override
 	public BukkitCommand[] getCommands()
 	{
 		return new BukkitCommand[] {
-			new BukkitCommand("pay", "Pay a player a specific amount.", "Usage: /pay [account] <account> <amount>.", "jl.economy.pay", (String[]) null, new PayCommand(bank), null),
-			new BukkitCommand("acc", "Account command", "Usage: /acc <create> ...", "jl.economy.pay", (String[]) null, new AccountCommand(bank), null)
+			new BukkitCommand("pay", "Transfer money to other accounts.", "Usage: /pay [from] <to> <amount>.", "jl.economy.pay", (String[]) null, new PayCommand(bank), null),
+			new BukkitCommand("acc", "Account mangement commands", "Usage: /acc <create> ...", "jl.economy.account", (String[]) null, new AccountCommand(bank), null)
 		};
 	}
 }
