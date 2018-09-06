@@ -20,7 +20,6 @@ public class SmallEconomy extends JavaLoaderBukkitProject
 	@Override
 	public String getVersion()
 	{
-		//TODO: Adjust Pom to change version.
 		return "1";
 	}
 	
