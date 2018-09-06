@@ -44,8 +44,12 @@ public class AccountCommand implements CommandExecutor
 			return true;
 		}
 		
-		subCmd.process(sender, args);
+		//Remove first arguement
+		int subArgsAmount = args.length - 1;
+		String[] subArguments = new String[subArgsAmount];
+		System.arraycopy(args, 1, subArguments, 0, subArgsAmount);
 		
+		subCmd.process(sender, subArguments);
 		return true;
 	}
 }

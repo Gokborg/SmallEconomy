@@ -20,11 +20,7 @@ public class CreateAccount extends SubCommand
 	@Override
 	public void process(CommandSender sender, String[] args)
 	{
-		/*
-		 * args[0] = create
-		 * args[1] = account_name
-		 */
-		if(args.length > 2)
+		if(args.length > 1)
 		{
 			sender.sendMessage(ChatColor.RED + "Usage: /acc create [name]");
 			return;
@@ -40,7 +36,7 @@ public class CreateAccount extends SubCommand
 			bank.addPlayerAccount(playerUser);
 		}
 		
-		if(args.length == 1)
+		if(args.length == 0)
 		{
 			//Check if they already have a main account!
 			if(playerUser.getAccount(playerUser.getName()) != null)
@@ -52,12 +48,10 @@ public class CreateAccount extends SubCommand
 			//Creates an account under that user using their name.
 			playerUser.addAccount(new Account(playerUser.getName()));
 		}
-		else
-		{ //Only two args possible here
-			// args[2] has the account name
-			
-			//Create an account with args[2] as name.
-			playerUser.addAccount(new Account(args[2]));
+		else //Only one args possible here
+		{
+			//Create an account with args[0] as name.
+			playerUser.addAccount(new Account(args[0]));
 		}
 	}
 }
