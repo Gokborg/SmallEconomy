@@ -8,7 +8,6 @@ import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
 import io.github.gokborg.exceptions.CannotCreateAccountException;
 
-//TODO: Do noth create the main account as sub-account with playername
 public class CreateAccount extends SubCommand
 {
 	private final Bank bank;

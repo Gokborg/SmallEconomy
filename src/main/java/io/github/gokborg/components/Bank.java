@@ -48,7 +48,6 @@ public class Bank
 				throw new AccountNotFoundException("User '" + accountID + "' has no accounts.");
 			}
 			
-			//TODO: Assume that it won't ever be null, or change to field.
 			return accountOwner.getMainAccount();
 		}
 		else //Format: <username>:<account-name>

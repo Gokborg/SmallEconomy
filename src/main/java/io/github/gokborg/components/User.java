@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import io.github.gokborg.exceptions.CannotCreateAccountException;
 
-//TODO: Save main account in own field
 public class User
 {
 	//The key refers to the sub-account-name: <player>:<sub-account-name>
@@ -15,12 +14,16 @@ public class User
 	//The last seen name on the server
 	private final String name;
 	private final UUID playerUUID;
+	//Main account linked to the User
+	private final Account mainAccount;
 	
 	public User(String playerName, UUID playerUUID)
 	{
 		this.name = playerName;
 		this.playerUUID = playerUUID;
-		subAccounts.put(name.toLowerCase(), new Account(name));
+		
+		//The main account has no name, its linked to the User.
+		mainAccount = new Account(null);
 	}
 	
 	public UUID getUUID()
@@ -45,13 +48,12 @@ public class User
 	
 	public Account getMainAccount()
 	{
-		//TODO: Change to main account field:
-		return subAccounts.get(name.toLowerCase());
+		return mainAccount;
 	}
 	
 	public void createAccount(String accountName) throws CannotCreateAccountException
 	{
-		if(subAccounts.size() > 5)
+		if(subAccounts.size() > 4)
 		{
 			throw new CannotCreateAccountException("You may only have 5 sub accounts.");
 		}

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class Account
 {
-	//TODO: Either move to User, or allow "null" for main accounts
+	//May be "null" if its a main account
 	private String name;
 	
 	//List of players which have access to transfer money from this account
