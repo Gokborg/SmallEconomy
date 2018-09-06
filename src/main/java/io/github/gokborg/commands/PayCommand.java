@@ -28,7 +28,7 @@ public class PayCommand implements CommandExecutor
 			return true;
 		}
 		
-		User playerUser = bank.getUser(((Player) sender).getName());
+		User playerUser = bank.getUser(((Player) sender).getUniqueId());
 		if(playerUser == null)
 		{
 			//TODO: Improve feedback

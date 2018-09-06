@@ -28,7 +28,7 @@ public class CreateAccount extends SubCommand
 		}
 		
 		Player player = (Player) sender;
-		User playerUser = bank.getUser(player.getName());
+		User playerUser = bank.getUser(player.getUniqueId());
 		
 		//Create a User if the sender doesn't have one.	
 		if(playerUser == null)

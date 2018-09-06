@@ -7,24 +7,31 @@ import java.util.UUID;
 //TODO: Prevent creating more than 5 accounts.
 public class Bank
 {
-	//TODO: Have two maps, one by UUID and by Name; for player and argument lookups
-	private Map<String, User> serverBank = new HashMap<>();
+	private Map<String, User> userByName = new HashMap<>();
+	private Map<UUID, User> userByUUID = new HashMap<>();
 	
 	public int getSize()
 	{
-		return serverBank.size();
+		return userByUUID.size();
 	}
 	
 	//TODO: Users should be created in the bank
 	public void addPlayerAccount(User user)
 	{
-		serverBank.put(user.getName(), user);
+		userByName.put(user.getName(), user);
+		userByUUID.put(user.getUUID(), user);
 	}
 	
-	//TODO: remove by UUID?
-	public void removePlayerAccount(User user)
+	public boolean removePlayerAccount(UUID uuid)
 	{
-		serverBank.remove(user.getName());
+		User removedUser = userByUUID.remove(uuid);
+		if(removedUser == null)
+		{
+			return false;
+		}
+		
+		userByName.remove(removedUser.getName());
+		return true;
 	}
 	
 	//TODO: Get accounts by proper account name: <playername>[:<sub-account-name>]
@@ -34,9 +41,13 @@ public class Bank
 		return requestedAccount == null || !requestedAccount.hasAccess(playerUUID) ? null : requestedAccount;
 	}
 	
-	//TODO: Add get by UUID
+	public User getUser(UUID uuid)
+	{
+		return userByUUID.get(uuid);
+	}
+	
 	public User getUser(String name)
 	{
-		return serverBank.get(name);
+		return userByName.get(name);
 	}
 }
