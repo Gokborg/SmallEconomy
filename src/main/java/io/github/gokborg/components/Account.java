@@ -2,48 +2,54 @@ package io.github.gokborg.components;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class Account {
+public class Account
+{
+	//May be "null" if its a main account
 	private String name;
 	
-	//List of which uuid's have access to this account
-	private List<UUID> players = new ArrayList<>();
+	//List of players which have access to transfer money from this account
+	private final List<User> players = new ArrayList<>();
 	
-	private int total = 0;
+	private int total;
 	
-	public Account(String name) {
+	public Account()
+	{
+	}
+	
+	public Account(String name)
+	{
 		this.name = name;
 	}
 	
-	public boolean hasAccess(UUID uuid) {
-		return players.contains(uuid);
+	public boolean hasAccess(User user)
+	{
+		return players.contains(user);
 	}
 	
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
-
-	public void setName(String name) {
+	
+	//TODO: Add subcommand to rename a sub-account
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 	
-	
-	public void add(int amount) {
+	public void add(int amount)
+	{
 		total += amount;
-		
 	}
 	
-	public void remove(int amount) {
+	public void remove(int amount)
+	{
 		total -= amount;
 	}
-
-	public int getTotal() {
+	
+	public int getTotal()
+	{
 		return total;
 	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
-	
 }

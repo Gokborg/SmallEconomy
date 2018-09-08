@@ -4,49 +4,70 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.entity.Player;
+import io.github.gokborg.exceptions.CannotCreateAccountException;
 
-public class User{
-	//Don't let players create accounts with their own name.
+public class User
+{
+	//The key refers to the sub-account-name: <player>:<sub-account-name>
 	private Map<String, Account> subAccounts = new HashMap<>();
 	
+	//The last seen name on the server
 	private final String name;
 	private final UUID playerUUID;
+	//Main account linked to the User
+	private final Account mainAccount;
 	
-	public User(String playerName, UUID playerUUID) {
+	public User(String playerName, UUID playerUUID)
+	{
 		this.name = playerName;
 		this.playerUUID = playerUUID;
-		subAccounts.put(name, new Account(name));
+		
+		//The main account has no name, its linked to the User.
+		mainAccount = new Account();
 	}
 	
-	public UUID getUUID() {
+	public UUID getUUID()
+	{
 		return playerUUID;
 	}
 	
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 	
-	public int getSize() {
-		return subAccounts.size();
+	public Account getAccount(String name)
+	{
+		return subAccounts.get(name.toLowerCase());
 	}
 	
-	public Account getAccount(String name) {
-		return subAccounts.get(name);
+	public Account getMainAccount()
+	{
+		return mainAccount;
 	}
 	
-	public void addAccount(Account account) {
-		 
-		 subAccounts.put(account.getName(), account);
+	public void createAccount(String accountName) throws CannotCreateAccountException
+	{
+		if(subAccounts.size() > 4)
+		{
+			throw new CannotCreateAccountException("You may only have 5 sub accounts.");
+		}
+		
+		if(subAccounts.containsKey(accountName.toLowerCase()))
+		{
+			throw new CannotCreateAccountException("You already have an account with name '" + accountName + "'.");
+		}
+		
+		subAccounts.put(accountName.toLowerCase(), new Account(accountName));
 	}
 	
-	//Based on name
-	public void removeAccount(String nameOfAccount) {
-		subAccounts.remove(nameOfAccount);
+	public void removeAccount(String nameOfAccount)
+	{
+		subAccounts.remove(nameOfAccount.toLowerCase());
 	}
 	
-	//Based on object
-	public void removeAccount(Account account) {
-		subAccounts.remove(account.getName(), account);
+	public void removeAccount(Account account)
+	{
+		subAccounts.remove(account.getName().toLowerCase(), account);
 	}
 }
