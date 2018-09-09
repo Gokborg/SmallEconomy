@@ -18,6 +18,11 @@ public class Account
 	{
 	}
 	
+	public void setTotal(int total)
+	{
+		this.total = total;
+	}
+	
 	public List<User> getAllUsers()
 	{
 		return players;

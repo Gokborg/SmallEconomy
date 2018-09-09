@@ -34,7 +34,7 @@ public class SmallEconomy extends JavaLoaderBukkitProject
 		return new BukkitCommand[] {
 			new BukkitCommand("pay").setPermission("jl.economy.pay").setUsageMessage("Usage: /pay [from] <to> <amount>").setDescription("Transfer money to other accounts.").setExecutor(new PayCommand(bank)),
 			new BukkitCommand("acc").setPermission("jl.economy.account").setUsageMessage("Usage: /acc <create , bal, list, share, unshare>").setDescription("Account mangement commands").setExecutor(new AccountCommand(bank)),
-			new BukkitCommand("accmgm").setPermission("jl.economy.accmgm").setUsageMessage("Usage: /accmgm <give>").setDescription("Admin commands for money").setExecutor(new AdminCommand(bank))
+			new BukkitCommand("accmng").setPermission("jl.economy.accmgm").setUsageMessage("Usage: /accmng <give>").setDescription("Admin commands for money").setExecutor(new AdminCommand(bank))
 		};
 	}
 }
