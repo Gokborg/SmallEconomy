@@ -58,6 +58,7 @@ public class ShareAccount extends SubCommand
 			}
 			
 			account.addUser(otherUser);
+			otherUser.addSharedAccount(account.getName());
 			sender.sendMessage(ChatColor.GREEN + "Successfully shared '" + args[0] + "' with " + args[1]);
 		}
 	}

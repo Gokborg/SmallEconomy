@@ -1,5 +1,7 @@
 package io.github.gokborg;
 
+import org.bukkit.Bukkit;
+
 import io.github.gokborg.commands.AccountCommand;
 import io.github.gokborg.commands.PayCommand;
 import io.github.gokborg.components.Bank;
@@ -10,9 +12,11 @@ public class SmallEconomy extends JavaLoaderBukkitProject
 {
 	private Bank bank = new Bank();
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onLoad()
 	{
+		bank.createUser("Ecconia", Bukkit.getOfflinePlayer("Ecconia").getUniqueId());
 	}
 	
 	@Override

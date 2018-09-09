@@ -68,8 +68,13 @@ public class PayCommand implements CommandExecutor
 		{
 			if(args.length == 3)
 			{
-				Account playerAccount = bank.parseAccountID(args[0], playerUser);
-				sender.sendMessage(playerAccount.getName());
+				Account playerAccount = playerUser.getAccount(args[0]);
+				
+				if(playerAccount == null)
+				{
+					playerAccount = bank.parseAccountID(args[0]);	
+				}
+				
 				if(!playerAccount.hasAccess(playerUser))
 				{
 					sender.sendMessage(ChatColor.RED + "You have no permission to transfer from this account.");
@@ -83,7 +88,7 @@ public class PayCommand implements CommandExecutor
 					return true;
 				}
 				
-				Account otherPlayerAccount = bank.parseAccountID(args[1], null);
+				Account otherPlayerAccount = bank.parseAccountID(args[1]);
 				
 				//Finally, transfer the money
 				playerAccount.remove(transactionAmount);
@@ -100,7 +105,7 @@ public class PayCommand implements CommandExecutor
 					return true;
 				}
 				
-				Account otherPlayerAccount = bank.parseAccountID(args[0], null);
+				Account otherPlayerAccount = bank.parseAccountID(args[0]);
 				
 				//Finally, transfer the money
 				playerAccount.remove(transactionAmount);

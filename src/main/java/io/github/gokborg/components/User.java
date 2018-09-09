@@ -1,7 +1,9 @@
 package io.github.gokborg.components;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -11,6 +13,8 @@ public class User
 {
 	//The key refers to the sub-account-name: <player>:<sub-account-name>
 	private final Map<String, Account> subAccounts = new HashMap<>();
+	private final List<String> sharedAccounts = new ArrayList<>();
+	
 	//Main account linked to the User
 	private final Account mainAccount = new Account();;
 	
@@ -40,6 +44,21 @@ public class User
 	public String getName()
 	{
 		return name;
+	}
+	
+	public List<String> getSharedAccounts()
+	{
+		return sharedAccounts;
+	}
+	
+	public void addSharedAccount(String accountName)
+	{
+		sharedAccounts.add(accountName);
+	}
+	
+	public void removeSharedAccount(String accountName)
+	{
+		sharedAccounts.remove(accountName);
 	}
 	
 	public Account getAccount(String name)

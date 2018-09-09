@@ -10,7 +10,7 @@ public class Account
 	
 	//List of players which have access to transfer money from this account
 	private final List<User> players = new ArrayList<>();
-	
+	private boolean shared = false;
 	//TODO: Replace 10 with notin
 	private int total = 10;
 	
@@ -28,9 +28,27 @@ public class Account
 		this.name = name;
 	}
 	
+	public boolean isShared()
+	{
+		return shared;
+	}
+	
 	public void addUser(User user)
 	{
 		players.add(user);
+		if (players.size() > 1)
+		{
+			shared = true;
+		}
+	}
+	
+	public void removeUser(User user)
+	{
+		players.remove(user);
+		if (players.size() == 1)
+		{
+			shared = false;
+		}
 	}
 	
 	public boolean hasAccess(User user)

@@ -32,47 +32,29 @@ public class Bank
 		return true;
 	}
 	
-	public Account parseAccountID(String accountID, User owner) throws AccountNotFoundException
+	public Account parseAccountID(String accountID) throws AccountNotFoundException
 	{
 		int doublePointIndex = accountID.indexOf(':');
 		
 		if(doublePointIndex == -1) //Format: <username>
 		{
-			if(owner != null)
+			User accountOwner = userByName.get(accountID.toLowerCase());
+			if(accountOwner == null)
 			{
-				if(accountID.equalsIgnoreCase(owner.getName()))
-				{
-					return owner.getMainAccount();
-				}
-				
-				Account account = owner.getAccount(accountID);
-				if(account == null)
-				{
-					throw new AccountNotFoundException("Account '" + accountID + "' does not exist.");
-				}
-				
-				return account;
+				throw new AccountNotFoundException("User '" + accountID + "' has no accounts.");
 			}
-			else
-			{
-				User accountOwner = userByName.get(accountID.toLowerCase());
-				if(accountOwner == null)
-				{
-					throw new AccountNotFoundException("User '" + accountID + "' does not exist.");
-				}
-				
-				return accountOwner.getMainAccount();
-			}
+			
+			return accountOwner.getMainAccount();
 		}
 		else //Format: <username>:<account-name>
 		{
 			String userName = accountID.substring(0, doublePointIndex);
-			String accountName = accountID.substring(doublePointIndex + 1);
+			String accountName = accountID.substring(doublePointIndex+1);
 			
 			User accountOwner = userByName.get(userName.toLowerCase());
 			if(accountOwner == null)
 			{
-				throw new AccountNotFoundException("User '" + userName + "' has no accounts.");
+				throw new AccountNotFoundException("User '" + userName + "' has no account(s).");
 			}
 			
 			Account account = accountOwner.getAccount(accountName);

@@ -38,10 +38,16 @@ public class ListAccounts extends SubCommand
 				return;
 			}
 			
-			sender.sendMessage("Your accounts:");
+			sender.sendMessage(ChatColor.YELLOW + "Your accounts:");
 			for(Account account : accounts)
 			{
-				sender.sendMessage("- " + ChatColor.GREEN + account.getName());
+				sender.sendMessage("- " + (account.isShared() ? ChatColor.AQUA : ChatColor.GREEN) + account.getName());
+				
+			}
+			sender.sendMessage(ChatColor.YELLOW + "Shared accounts:");
+			for (String sharedAccountName : player.getSharedAccounts())
+			{
+				sender.sendMessage("- " + ChatColor.LIGHT_PURPLE + sharedAccountName);
 			}
 			
 			//TODO: Print accounts this user also has access to.

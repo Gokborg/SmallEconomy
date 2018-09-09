@@ -36,7 +36,13 @@ public class Balance extends SubCommand
 		{
 			try
 			{
-				Account playerAccount = bank.parseAccountID(args[0], player);
+				Account playerAccount = player.getAccount(args[0]);
+				
+				if(playerAccount == null)
+				{
+					playerAccount = bank.parseAccountID(args[0]);	
+				}
+				
 				if(playerAccount.hasAccess(player))
 				{
 					sender.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "✿");
