@@ -5,31 +5,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import io.github.gokborg.exceptions.AccountNotFoundException;
 import io.github.gokborg.exceptions.CannotCreateAccountException;
 
 public class User
 {
 	//The key refers to the sub-account-name: <player>:<sub-account-name>
-	private Map<String, Account> subAccounts = new HashMap<>();
+	private final Map<String, Account> subAccounts = new HashMap<>();
+	//Main account linked to the User
+	private final Account mainAccount = new Account();;
 	
 	//The last seen name on the server
 	private final String name;
 	private final UUID playerUUID;
-	//Main account linked to the User
-	private final Account mainAccount;
 	
 	public User(String playerName, UUID playerUUID)
 	{
 		this.name = playerName;
 		this.playerUUID = playerUUID;
 		
-		//The main account has no name, its linked to the User.
-		mainAccount = new Account();
+		//Allow this used to access his own account
 		mainAccount.addUser(this);
 	}
 	
-	public Collection<Account> getAllAccounts() 
+	public Collection<Account> getAllAccounts()
 	{
 		return subAccounts.values();
 	}
@@ -48,14 +46,7 @@ public class User
 	{
 		return subAccounts.get(name.toLowerCase());
 	}
-	public void shareAccount(User user, String accountName) throws AccountNotFoundException 
-	{
-		if (!subAccounts.containsKey(accountName))
-		{
-			throw new AccountNotFoundException("The account does not exist!");
-		}
-		getAccount(accountName).addUser(user);
-	}
+	
 	public Account getMainAccount()
 	{
 		return mainAccount;

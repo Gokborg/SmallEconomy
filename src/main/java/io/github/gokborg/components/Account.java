@@ -28,7 +28,7 @@ public class Account
 		this.name = name;
 	}
 	
-	public void addUser(User user) 
+	public void addUser(User user)
 	{
 		players.add(user);
 	}
