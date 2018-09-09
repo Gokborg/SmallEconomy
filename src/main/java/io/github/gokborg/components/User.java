@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import io.github.gokborg.exceptions.AccountNotFoundException;
 import io.github.gokborg.exceptions.CannotCreateAccountException;
 
 public class User
@@ -47,16 +46,6 @@ public class User
 	public Account getAccount(String name)
 	{
 		return subAccounts.get(name.toLowerCase());
-	}
-	
-	public void shareAccount(User user, String accountName) throws AccountNotFoundException
-	{
-		if(!subAccounts.containsKey(accountName))
-		{
-			throw new AccountNotFoundException("The account '" + accountName + "' does not exist.");
-		}
-		
-		getAccount(accountName).addUser(user);
 	}
 	
 	public Account getMainAccount()

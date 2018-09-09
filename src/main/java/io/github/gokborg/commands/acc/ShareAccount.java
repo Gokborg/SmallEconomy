@@ -4,9 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
-import io.github.gokborg.exceptions.AccountNotFoundException;
 
 public class ShareAccount extends SubCommand
 {
@@ -40,31 +40,25 @@ public class ShareAccount extends SubCommand
 				return;
 			}
 			
-			try
+			//Shares with the other user
+			User otherUser = bank.getUser(args[1].toLowerCase());
+			
+			//Incase the otheruser does not exist
+			if(otherUser == null)
 			{
-				//Shares with the other user
-				User otherUser = bank.getUser(args[1].toLowerCase());
-				
-				//Incase the otheruser does not exist
-				if(otherUser == null)
-				{
-					sender.sendMessage(ChatColor.RED + "User '" + args[1] + "' does not exist.");
-					return;
-				}
-				
-				if(player.getAccount(args[0]) == null)
-				{
-					sender.sendMessage(ChatColor.RED + "The account you are trying to share does not exist.");
-				}
-				
-				player.shareAccount(otherUser, args[0]);
-				sender.sendMessage(ChatColor.GREEN + "Successfully shared '" + args[0] + "' with " + args[1]);
-			}
-			catch(AccountNotFoundException e)
-			{
-				sender.sendMessage(ChatColor.RED + "The account '" + args[0] + "' does not exist.");
+				sender.sendMessage(ChatColor.RED + "User '" + args[1] + "' does not exist.");
 				return;
 			}
+			
+			Account account = player.getAccount(args[0]);
+			if(player.getAccount(args[0]) == null)
+			{
+				sender.sendMessage(ChatColor.RED + "The account you are trying to share does not exist.");
+				return;
+			}
+			
+			account.addUser(otherUser);
+			sender.sendMessage(ChatColor.GREEN + "Successfully shared '" + args[0] + "' with " + args[1]);
 		}
 	}
 }
