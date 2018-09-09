@@ -53,7 +53,7 @@ public class Balance extends SubCommand
 		}
 		else
 		{
-			sender.sendMessage(ChatColor.RED + "The correct usage is '/acc bal [account]'");
+			sender.sendMessage(ChatColor.RED + "Usage: /acc bal [account]");
 		}
 	}
 }
