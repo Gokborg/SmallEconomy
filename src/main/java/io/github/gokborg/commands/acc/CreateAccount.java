@@ -8,6 +8,7 @@ import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
 import io.github.gokborg.exceptions.CannotCreateAccountException;
+import io.github.gokborg.exceptions.CommandException;
 
 public class CreateAccount extends SubCommand
 {
@@ -19,7 +20,7 @@ public class CreateAccount extends SubCommand
 	}
 	
 	@Override
-	public void process(CommandSender sender, String[] args)
+	public void execute(CommandSender sender, String[] args) throws CommandException
 	{
 		if(args.length > 1)
 		{
@@ -27,18 +28,19 @@ public class CreateAccount extends SubCommand
 			return;
 		}
 		
-		Player player = (Player) sender;
-		User playerUser = bank.getUser(player.getUniqueId());
+		Player player = getPlayer(sender);
+		
+		User playerUser = getUser(bank, player);
 		
 		//Create a User for the executing player if he has none.
 		if(playerUser == null)
 		{
 			playerUser = bank.createUser(player.getName(), player.getUniqueId());
-			player.sendMessage(ChatColor.GREEN + "Created personal account.");
+			sender.sendMessage(ChatColor.GREEN + "Created personal account.");
 		}
 		else if(args.length == 0)
 		{
-			player.sendMessage(ChatColor.RED + "You already have a personal account.");
+			sender.sendMessage(ChatColor.RED + "You already have a personal account.");
 		}
 		
 		if(args.length == 1)
@@ -47,7 +49,7 @@ public class CreateAccount extends SubCommand
 			{
 				//Create an account with args[0] as name.
 				playerUser.createAccount(args[0]);
-				player.sendMessage(ChatColor.GREEN + "Created account '" + args[0] + "'.");
+				sender.sendMessage(ChatColor.GREEN + "Created account '" + args[0] + "'.");
 			}
 			catch(CannotCreateAccountException e)
 			{

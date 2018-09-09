@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
 import io.github.gokborg.exceptions.CommandException;
@@ -50,5 +51,16 @@ public abstract class CommandTools
 		}
 		
 		return user;
+	}
+	
+	protected Account getAccount(User user, String accountName) throws CommandException
+	{
+		Account account = user.getAccount(accountName);
+		
+		if (account == null)
+		{
+			die ("The account '" + accountName + "' does not exist.");
+		}
+		return account;
 	}
 }

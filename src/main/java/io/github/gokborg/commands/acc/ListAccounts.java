@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
+import io.github.gokborg.exceptions.CommandException;
 
 public class ListAccounts extends SubCommand
 {
@@ -22,23 +22,14 @@ public class ListAccounts extends SubCommand
 	}
 	//edit anything
 	@Override
-	public void process(CommandSender sender, String[] args)
+	public void execute(CommandSender sender, String[] args) throws CommandException
 	{
-		User player = bank.getUser(((Player) sender).getUniqueId());
-		if(player == null)
-		{
-			sender.sendMessage(ChatColor.RED + "Please first create an account '/acc create', to use this command.");
-			return;
-		}
+		User player = getUser(bank, getPlayer(sender));
 		
 		if(args.length == 0) //Print all accounts of this user
 		{
 			Collection<Account> accounts = player.getAllAccounts();
-			if(accounts.isEmpty())
-			{
-				sender.sendMessage(ChatColor.GREEN + "You don't have any sub-account.");
-				return;
-			}
+			check(accounts.isEmpty(), "You have no sub-accounts");
 			
 			sender.sendMessage(ChatColor.YELLOW + "Your accounts:");
 			for(Account account : accounts)
@@ -66,18 +57,10 @@ public class ListAccounts extends SubCommand
 		else if(args.length == 1) //Print the accounts of some other user
 		{
 			User otherUser = bank.getUser(args[0]);
-			if(otherUser == null)
-			{
-				sender.sendMessage(ChatColor.RED + "The user '" + args[0] + "' does not exist.");
-				return;
-			}
+			check(otherUser, "The user '" + args[0] + "' does not exist.");
 			
 			Collection<Account> accounts = otherUser.getAllAccounts();
-			if(accounts.isEmpty())
-			{
-				sender.sendMessage(ChatColor.GREEN + "The user '" + args[0] + "' has no sub-account.");
-				return;
-			}
+			check(accounts.isEmpty(), "The user '" + args[0] + "' has no sub-account.");
 			
 			sender.sendMessage(args[0] + "'s accounts:");
 			for(Account account : accounts)

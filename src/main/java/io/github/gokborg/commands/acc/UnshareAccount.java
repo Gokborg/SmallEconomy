@@ -2,12 +2,12 @@ package io.github.gokborg.commands.acc;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
+import io.github.gokborg.exceptions.CommandException;
 
 public class UnshareAccount extends SubCommand
 {
@@ -19,39 +19,17 @@ public class UnshareAccount extends SubCommand
 	}
 	
 	@Override
-	public void process(CommandSender sender, String[] args)
+	public void execute(CommandSender sender, String[] args) throws CommandException
 	{
-		User player = bank.getUser(((Player) sender).getUniqueId());
+		User player = getUser(bank, getPlayer(sender));
 		
-		if(player == null)
-		{
-			sender.sendMessage(ChatColor.RED + "Please first create an account '/acc create', to use this command.");
-			return;
-		}
-		if(args.length != 2)
-		{
-			sender.sendMessage(ChatColor.RED + "Usage: /acc unshare <account_name> <user>");
-			return;
-		}
+		check(args.length != 2, "Usage: /acc unshare <account_name> <user>");
 		
-		Account playerAccount = player.getAccount(args[0]);
-		
-		if(playerAccount == null)
-		{
-			sender.sendMessage(ChatColor.RED + "The account '" + args[0] + "' does not exist.");
-		}
-		if(!playerAccount.isShared())
-		{
-			sender.sendMessage(ChatColor.RED + "The account '" + args[0] + "' isn't shared");
-			return;
-		}
+		Account playerAccount = getAccount(player, args[0]);
+		check(!playerAccount.isShared(), "The account '" + args[0] + "' isn't shared");
 		
 		User otherUser = bank.getUser(args[1]);
-		
-		if(otherUser == null)
-		{
-			sender.sendMessage(ChatColor.RED + "The user '" + args[1] + "' does not exist.");
-		}
+		check(otherUser, "The user '" + args[1] + "' does not exist.");
 		
 		playerAccount.removeUser(otherUser);
 		

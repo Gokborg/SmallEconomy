@@ -2,12 +2,12 @@ package io.github.gokborg.commands.acc;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
+import io.github.gokborg.exceptions.CommandException;
 
 public class ShareAccount extends SubCommand
 {
@@ -19,48 +19,27 @@ public class ShareAccount extends SubCommand
 	}
 	
 	@Override
-	public void process(CommandSender sender, String[] args)
+	public void execute(CommandSender sender, String[] args) throws CommandException
 	{
-		User player = bank.getUser(((Player) sender).getUniqueId());
-		if(player == null)
-		{
-			sender.sendMessage(ChatColor.RED + "Please first create an account '/acc create', to use this command.");
-			return;
-		}
+		User playerUser = getUser(bank, getPlayer(sender));
 		
-		if(args.length != 2)
-		{
-			sender.sendMessage(ChatColor.RED + "Usage: /acc share <account> <user>");
-		}
-		else
-		{
-			//If they attempt to share w/ themselves stop them.
-			if(args[1].equalsIgnoreCase(sender.getName()))
-			{
-				sender.sendMessage(ChatColor.RED + "You can not share an account with yourself.");
-				return;
-			}
-			
-			//Shares with the other user
-			User otherUser = bank.getUser(args[1]);
-			
-			//Incase the otheruser does not exist
-			if(otherUser == null)
-			{
-				sender.sendMessage(ChatColor.RED + "User '" + args[1] + "' does not exist.");
-				return;
-			}
-			
-			Account account = player.getAccount(args[0]);
-			if(player.getAccount(args[0]) == null)
-			{
-				sender.sendMessage(ChatColor.RED + "The account you are trying to share does not exist.");
-				return;
-			}
-			
-			account.addUser(otherUser);
-			otherUser.addSharedAccount(account.getName());
-			sender.sendMessage(ChatColor.GREEN + "Successfully shared '" + args[0] + "' with " + args[1]);
-		}
+		check(args.length != 2, "Usage: /acc share <account> <user>");
+		
+		//If they attempt to share w/ themselves stop them.
+		check(args[1].equalsIgnoreCase(sender.getName()), "You can not share an account with yourself.");
+		
+		
+		//Shares with the other user
+		User otherUser = bank.getUser(args[1]);
+		
+		//Incase the otheruser does not exist
+		check(otherUser, "User '" + args[1] + "' does not exist.");
+		
+		Account account = getAccount(playerUser, args[0]); 
+		
+		account.addUser(otherUser);
+		otherUser.addSharedAccount(account.getName());
+		sender.sendMessage(ChatColor.GREEN + "Successfully shared '" + args[0] + "' with " + args[1]);
+	
 	}
 }

@@ -15,8 +15,9 @@ import io.github.gokborg.commands.acc.ListAccounts;
 import io.github.gokborg.commands.acc.ShareAccount;
 import io.github.gokborg.commands.acc.UnshareAccount;
 import io.github.gokborg.components.Bank;
+import io.github.gokborg.exceptions.CommandException;
 
-public class AccountCommand implements CommandExecutor
+public class AccountCommand extends CommandWrapper
 {
 	private Map<String, SubCommand> subCommands = new HashMap<>();
 	
@@ -32,7 +33,7 @@ public class AccountCommand implements CommandExecutor
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+	public boolean execute(CommandSender sender, String[] args) throws CommandException
 	{
 		//Check if sender is a player, only players need accounts
 		if(!(sender instanceof Player))
@@ -58,7 +59,10 @@ public class AccountCommand implements CommandExecutor
 		String[] subArguments = new String[subArgsAmount];
 		System.arraycopy(args, 1, subArguments, 0, subArgsAmount);
 		
-		subCmd.process(sender, subArguments);
+		
+		subCmd.execute(sender, subArguments);
+
+		
 		return true;
 	}
 }

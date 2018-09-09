@@ -2,7 +2,9 @@ package io.github.gokborg.commands;
 
 import org.bukkit.command.CommandSender;
 
-public abstract class SubCommand
+import io.github.gokborg.exceptions.CommandException;
+
+public abstract class SubCommand extends CommandTools
 {
-	public abstract void process(CommandSender sender, String[] args);
+	public abstract void execute(CommandSender sender, String[] args) throws CommandException;
 }

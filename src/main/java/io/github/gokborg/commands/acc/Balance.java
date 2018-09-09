@@ -9,6 +9,7 @@ import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
 import io.github.gokborg.exceptions.AccountNotFoundException;
+import io.github.gokborg.exceptions.CommandException;
 
 public class Balance extends SubCommand
 {
@@ -20,19 +21,15 @@ public class Balance extends SubCommand
 	}
 	
 	@Override
-	public void process(CommandSender sender, String[] args)
+	public void execute(CommandSender sender, String[] args) throws CommandException
 	{
-		User player = bank.getUser(((Player) sender).getUniqueId());
-		if(player == null)
-		{
-			sender.sendMessage(ChatColor.RED + "Please first create an account '/acc create', to use this command.");
-			return;
-		}
+		User player = getUser(bank, getPlayer(sender));
 		
 		if(args.length == 0)
 		{
 			sender.sendMessage(ChatColor.GREEN + "Balance: " + player.getMainAccount().getTotal() + "✿");
 		}
+		
 		else if(args.length == 1)
 		{
 			try
@@ -41,17 +38,13 @@ public class Balance extends SubCommand
 				
 				if(playerAccount == null)
 				{
-					playerAccount = bank.parseAccountID(args[0]);	
+					playerAccount = bank.parseAccountID(args[0]);
 				}
 				
-				if(playerAccount.hasAccess(player))
-				{
-					sender.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "✿");
-				}
-				else
-				{
-					sender.sendMessage(ChatColor.RED + "You don't have permission to access this account.");
-				}
+				check(!playerAccount.hasAccess(player), "You don't have permission to access this account.");
+				
+				sender.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "✿");
+				
 			}
 			catch(AccountNotFoundException e)
 			{
