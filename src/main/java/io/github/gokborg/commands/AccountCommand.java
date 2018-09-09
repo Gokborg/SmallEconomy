@@ -13,7 +13,6 @@ import io.github.gokborg.commands.acc.Balance;
 import io.github.gokborg.commands.acc.CreateAccount;
 import io.github.gokborg.commands.acc.ListAccounts;
 import io.github.gokborg.commands.acc.ShareAccount;
-import io.github.gokborg.commands.acc.SubCommand;
 import io.github.gokborg.commands.acc.UnshareAccount;
 import io.github.gokborg.components.Bank;
 

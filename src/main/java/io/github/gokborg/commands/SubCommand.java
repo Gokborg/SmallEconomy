@@ -1,4 +1,4 @@
-package io.github.gokborg.commands.acc;
+package io.github.gokborg.commands;
 
 import org.bukkit.command.CommandSender;
 
