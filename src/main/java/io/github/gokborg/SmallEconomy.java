@@ -8,13 +8,11 @@ import io.github.pieter12345.javaloader.bukkit.JavaLoaderBukkitProject;
 
 public class SmallEconomy extends JavaLoaderBukkitProject
 {
-	private Bank bank;
+	private Bank bank = new Bank();
 	
 	@Override
 	public void onLoad()
 	{
-		//TODO: Import Export
-		bank = new Bank();
 	}
 	
 	@Override

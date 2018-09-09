@@ -35,6 +35,10 @@ public class CreateAccount extends SubCommand
 			playerUser = bank.createUser(player.getName(), player.getUniqueId());
 			player.sendMessage(ChatColor.GREEN + "Created personal account.");
 		}
+		else if (args.length == 0) 
+		{
+			player.sendMessage(ChatColor.RED + "You already have a personal account.");
+		}
 		
 		if(args.length == 1)
 		{

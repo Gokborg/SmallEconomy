@@ -11,7 +11,8 @@ public class Account
 	//List of players which have access to transfer money from this account
 	private final List<User> players = new ArrayList<>();
 	
-	private int total;
+	//TODO: Replace 10 with notin
+	private int total = 10;
 	
 	public Account()
 	{
@@ -20,6 +21,11 @@ public class Account
 	public Account(String name)
 	{
 		this.name = name;
+	}
+	
+	public void addUser(User user) 
+	{
+		players.add(user);
 	}
 	
 	public boolean hasAccess(User user)

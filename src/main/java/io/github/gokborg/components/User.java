@@ -1,9 +1,11 @@
 package io.github.gokborg.components;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import io.github.gokborg.exceptions.AccountNotFoundException;
 import io.github.gokborg.exceptions.CannotCreateAccountException;
 
 public class User
@@ -24,6 +26,21 @@ public class User
 		
 		//The main account has no name, its linked to the User.
 		mainAccount = new Account();
+		mainAccount.addUser(this);
+	}
+	
+	public Collection<Account> getAllAccounts() 
+	{
+		return subAccounts.values();
+	}
+	
+	public void shareAccount(User user, String accountName) throws AccountNotFoundException 
+	{
+		Account account = getAccount(accountName);
+		if (account == null) {
+			throw new AccountNotFoundException("The account does not exist!");
+		}
+		account.addUser(user);
 	}
 	
 	public UUID getUUID()
@@ -58,7 +75,9 @@ public class User
 			throw new CannotCreateAccountException("You already have an account with name '" + accountName + "'.");
 		}
 		
-		subAccounts.put(accountName.toLowerCase(), new Account(accountName));
+		Account newAccount = new Account(accountName);
+		newAccount.addUser(this);
+		subAccounts.put(accountName.toLowerCase(), newAccount);
 	}
 	
 	public void removeAccount(String nameOfAccount)

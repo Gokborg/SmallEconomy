@@ -7,6 +7,6 @@ public class DeleteAccount extends SubCommand
 	@Override
 	public void process(CommandSender sender, String[] args)
 	{
-		//TODO: implement
+		
 	}
 }

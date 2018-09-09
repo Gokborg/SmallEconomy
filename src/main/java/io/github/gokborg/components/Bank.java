@@ -14,7 +14,7 @@ public class Bank
 	public User createUser(String username, UUID uuid)
 	{
 		User user = new User(username, uuid);
-		userByName.put(user.getName(), user);
+		userByName.put(user.getName().toLowerCase(), user);
 		userByUUID.put(user.getUUID(), user);
 		return user;
 	}
@@ -36,7 +36,7 @@ public class Bank
 	{
 		int doublePointIndex = accountID.indexOf(':');
 		
-		if(doublePointIndex != -1) //Format: <username>
+		if(doublePointIndex == -1) //Format: <username>
 		{
 			User accountOwner = userByName.get(accountID.toLowerCase());
 			if(accountOwner == null)
@@ -49,7 +49,7 @@ public class Bank
 		else //Format: <username>:<account-name>
 		{
 			String userName = accountID.substring(0, doublePointIndex);
-			String accountName = accountID.substring(doublePointIndex);
+			String accountName = accountID.substring(doublePointIndex+1);
 			
 			User accountOwner = userByName.get(userName.toLowerCase());
 			if(accountOwner == null)
