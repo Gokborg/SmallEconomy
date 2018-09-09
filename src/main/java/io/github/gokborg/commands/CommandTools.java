@@ -15,9 +15,17 @@ public abstract class CommandTools
 		throw new CommandException(ChatColor.RED + message);
 	}
 	
-	protected void checkNotNull(Object obj, String failtureMessage) throws CommandException
+	protected void check(Object obj, String failtureMessage) throws CommandException
 	{
 		if(obj == null)
+		{
+			die(failtureMessage);
+		}
+	}
+	
+	protected void check(boolean bool, String failtureMessage) throws CommandException
+	{
+		if(bool)
 		{
 			die(failtureMessage);
 		}

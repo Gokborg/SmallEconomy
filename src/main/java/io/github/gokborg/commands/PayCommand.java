@@ -1,17 +1,15 @@
 package io.github.gokborg.commands;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
 import io.github.gokborg.exceptions.AccountNotFoundException;
+import io.github.gokborg.exceptions.CommandException;
 
-public class PayCommand implements CommandExecutor
+public class PayCommand extends CommandWrapper
 {
 	private final Bank bank;
 	
@@ -20,21 +18,10 @@ public class PayCommand implements CommandExecutor
 		this.bank = bank;
 	}
 	
-	public boolean onCommand(final CommandSender sender, Command command, String label, String[] args)
+	public boolean execute(final CommandSender sender, String[] args) throws CommandException
 	{
-		//Check if sender is a player, only players have accounts and may do transactions
-		if(!(sender instanceof Player))
-		{
-			sender.sendMessage(ChatColor.RED + "You must be a player to run this command.");
-			return true;
-		}
-		
-		User playerUser = bank.getUser(((Player) sender).getUniqueId());
-		if(playerUser == null)
-		{
-			sender.sendMessage(ChatColor.RED + "Please first create an account '/acc create', to use this command.");
-			return true;
-		}
+		//Check if sender is a player and has a useraccount
+		User playerUser = getUser(bank, getPlayer(sender));
 		
 		//Only allow 2 or 3 arguments
 		if(args.length != 2 && args.length != 3)
@@ -42,26 +29,17 @@ public class PayCommand implements CommandExecutor
 			return false;
 		}
 		
-		Integer transactionAmount;
+		Integer transactionAmount = null;
 		try
 		{
 			//Parse last argument to Integer
 			transactionAmount = Integer.parseInt(args[args.length - 1]);
-			if(transactionAmount < 0)
-			{
-				sender.sendMessage(ChatColor.RED + "You can only transfer positive amounts.");
-				return true;
-			}
-			else if(transactionAmount == 0)
-			{
-				sender.sendMessage(ChatColor.RED + "Cannot transfer nothing.");
-				return true;
-			}
+			check(transactionAmount < 0, "You can only transfer positive amounts.");
+			check(transactionAmount == 0, "Cannot transfer nothing.");
 		}
 		catch(NumberFormatException e)
 		{
-			sender.sendMessage(ChatColor.RED + "Your last argument has to be an integer value.");
-			return true;
+			die("Your last argument has to be an integer value.");
 		}
 		
 		try
@@ -75,18 +53,10 @@ public class PayCommand implements CommandExecutor
 					playerAccount = bank.parseAccountID(args[0]);	
 				}
 				
-				if(!playerAccount.hasAccess(playerUser))
-				{
-					sender.sendMessage(ChatColor.RED + "You have no permission to transfer from this account.");
-					return true;
-				}
+				check(!playerAccount.hasAccess(playerUser), "You have no permission to transfer from this account.");
 				
 				//Check if the player has enough money to pay
-				if(playerAccount.getTotal() < transactionAmount)
-				{
-					sender.sendMessage(ChatColor.RED + "Insufficient funds.");
-					return true;
-				}
+				check(playerAccount.getTotal() < transactionAmount, "Insufficient funds.");
 				
 				Account otherPlayerAccount = bank.parseAccountID(args[1]);
 				
@@ -99,11 +69,7 @@ public class PayCommand implements CommandExecutor
 				Account playerAccount = playerUser.getMainAccount();
 				
 				// Check if the player has enough money to pay
-				if(playerAccount.getTotal() < transactionAmount)
-				{
-					sender.sendMessage(ChatColor.RED + "Insufficient funds.");
-					return true;
-				}
+				check(playerAccount.getTotal() < transactionAmount, "Insufficient funds.");
 				
 				Account otherPlayerAccount = bank.parseAccountID(args[0]);
 				
