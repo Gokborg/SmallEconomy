@@ -21,7 +21,7 @@ public class UnshareAccount extends SubCommand
 	@Override
 	public void execute(Player player, String[] args) throws CommandException
 	{
-		User user = getUser(bank, getPlayer(player));
+		User user = getUser(bank, player);
 		
 		check(args.length != 2, "Usage: /acc unshare <account_name> <user>");
 		

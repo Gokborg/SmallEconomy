@@ -21,13 +21,9 @@ public class CreateAccount extends SubCommand
 	@Override
 	public void execute(Player player, String[] args) throws CommandException
 	{
-		if(args.length > 1)
-		{
-			player.sendMessage(ChatColor.RED + "Usage: /acc create [name]");
-			return;
-		}
+		check(args.length > 1, "Usage: /acc create [name]");
 		
-		User playerUser = getUser(bank, player);
+		User playerUser = bank.getUser(player.getUniqueId());
 		
 		//Create a User for the executing player if he has none.
 		if(playerUser == null)
