@@ -10,7 +10,7 @@ import io.github.gokborg.components.User;
 import io.github.gokborg.exceptions.AccountNotFoundException;
 
 public class Balance extends SubCommand
-{	
+{
 	private final Bank bank;
 	
 	public Balance(Bank bank)
@@ -21,28 +21,27 @@ public class Balance extends SubCommand
 	@Override
 	public void process(CommandSender sender, String[] args)
 	{
-		User player = bank.getUser(((Player)sender).getUniqueId());
-		if (player == null) 
+		User player = bank.getUser(((Player) sender).getUniqueId());
+		if(player == null)
 		{
 			sender.sendMessage(ChatColor.RED + "Please first create an account '/acc create', to use this command.");
 			return;
 		}
 		
-		if (args.length == 0)
+		if(args.length == 0)
 		{
 			sender.sendMessage(ChatColor.GREEN + "Balance: " + player.getMainAccount().getTotal() + "✿");
 		}
-		
-		else if (args.length == 1) 
+		else if(args.length == 1)
 		{
 			try
 			{
 				Account playerAccount = bank.parseAccountID(args[0], player);
-				if (playerAccount.hasAccess(player))
+				if(playerAccount.hasAccess(player))
 				{
 					sender.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "✿");
 				}
-				else 
+				else
 				{
 					sender.sendMessage(ChatColor.RED + "You don't have permission to access this account.");
 				}
@@ -52,9 +51,9 @@ public class Balance extends SubCommand
 				sender.sendMessage(ChatColor.RED + e.getMessage());
 			}
 		}
-		else 
+		else
 		{
 			sender.sendMessage(ChatColor.RED + "The correct usage is '/acc bal [account]'");
-		}	
+		}
 	}
 }

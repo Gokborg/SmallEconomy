@@ -29,7 +29,7 @@ public class User
 		mainAccount.addUser(this);
 	}
 	
-	public Collection<Account> getAllAccounts() 
+	public Collection<Account> getAllAccounts()
 	{
 		return subAccounts.values();
 	}
@@ -48,14 +48,17 @@ public class User
 	{
 		return subAccounts.get(name.toLowerCase());
 	}
-	public void shareAccount(User user, String accountName) throws AccountNotFoundException 
+	
+	public void shareAccount(User user, String accountName) throws AccountNotFoundException
 	{
-		if (!subAccounts.containsKey(accountName))
+		if(!subAccounts.containsKey(accountName))
 		{
-			throw new AccountNotFoundException("The account does not exist!");
+			throw new AccountNotFoundException("The account '" + accountName + "' does not exist.");
 		}
+		
 		getAccount(accountName).addUser(user);
 	}
+	
 	public Account getMainAccount()
 	{
 		return mainAccount;

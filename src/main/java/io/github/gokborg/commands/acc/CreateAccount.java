@@ -1,6 +1,5 @@
 package io.github.gokborg.commands.acc;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,6 +16,7 @@ public class CreateAccount extends SubCommand
 	{
 		this.bank = bank;
 	}
+	
 	@Override
 	public void process(CommandSender sender, String[] args)
 	{
@@ -35,7 +35,7 @@ public class CreateAccount extends SubCommand
 			playerUser = bank.createUser(player.getName(), player.getUniqueId());
 			player.sendMessage(ChatColor.GREEN + "Created personal account.");
 		}
-		else if (args.length == 0) 
+		else if(args.length == 0)
 		{
 			player.sendMessage(ChatColor.RED + "You already have a personal account.");
 		}

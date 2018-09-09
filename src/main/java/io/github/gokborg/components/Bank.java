@@ -34,30 +34,31 @@ public class Bank
 	
 	public Account parseAccountID(String accountID, User owner) throws AccountNotFoundException
 	{
-		
 		int doublePointIndex = accountID.indexOf(':');
 		
 		if(doublePointIndex == -1) //Format: <username>
 		{
-			if (owner != null)
+			if(owner != null)
 			{
-				if (accountID.equalsIgnoreCase(owner.getName()))
+				if(accountID.equalsIgnoreCase(owner.getName()))
 				{
 					return owner.getMainAccount();
 				}
+				
 				Account account = owner.getAccount(accountID);
-				if (account == null)
+				if(account == null)
 				{
-					throw new AccountNotFoundException("Account '" + accountID + "' does not exist");
+					throw new AccountNotFoundException("Account '" + accountID + "' does not exist.");
 				}
+				
 				return account;
 			}
-			else 
+			else
 			{
 				User accountOwner = userByName.get(accountID.toLowerCase());
 				if(accountOwner == null)
 				{
-					throw new AccountNotFoundException("User '" + accountID + "' does not exist");
+					throw new AccountNotFoundException("User '" + accountID + "' does not exist.");
 				}
 				
 				return accountOwner.getMainAccount();
@@ -66,7 +67,7 @@ public class Bank
 		else //Format: <username>:<account-name>
 		{
 			String userName = accountID.substring(0, doublePointIndex);
-			String accountName = accountID.substring(doublePointIndex+1);
+			String accountName = accountID.substring(doublePointIndex + 1);
 			
 			User accountOwner = userByName.get(userName.toLowerCase());
 			if(accountOwner == null)

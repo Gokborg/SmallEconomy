@@ -28,6 +28,7 @@ public class PayCommand implements CommandExecutor
 			sender.sendMessage(ChatColor.RED + "You must be a player to run this command.");
 			return true;
 		}
+		
 		User playerUser = bank.getUser(((Player) sender).getUniqueId());
 		if(playerUser == null)
 		{
