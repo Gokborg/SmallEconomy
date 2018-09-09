@@ -34,15 +34,6 @@ public class User
 		return subAccounts.values();
 	}
 	
-	public void shareAccount(User user, String accountName) throws AccountNotFoundException 
-	{
-		Account account = getAccount(accountName);
-		if (account == null) {
-			throw new AccountNotFoundException("The account does not exist!");
-		}
-		account.addUser(user);
-	}
-	
 	public UUID getUUID()
 	{
 		return playerUUID;
@@ -57,7 +48,14 @@ public class User
 	{
 		return subAccounts.get(name.toLowerCase());
 	}
-	
+	public void shareAccount(User user, String accountName) throws AccountNotFoundException 
+	{
+		if (!subAccounts.containsKey(accountName))
+		{
+			throw new AccountNotFoundException("The account does not exist!");
+		}
+		getAccount(accountName).addUser(user);
+	}
 	public Account getMainAccount()
 	{
 		return mainAccount;

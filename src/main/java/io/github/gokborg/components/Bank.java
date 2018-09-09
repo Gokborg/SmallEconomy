@@ -32,19 +32,36 @@ public class Bank
 		return true;
 	}
 	
-	public Account parseAccountID(String accountID) throws AccountNotFoundException
+	public Account parseAccountID(String accountID, User owner) throws AccountNotFoundException
 	{
+		
 		int doublePointIndex = accountID.indexOf(':');
 		
 		if(doublePointIndex == -1) //Format: <username>
 		{
-			User accountOwner = userByName.get(accountID.toLowerCase());
-			if(accountOwner == null)
+			if (owner != null)
 			{
-				throw new AccountNotFoundException("User '" + accountID + "' has no accounts.");
+				if (accountID.equalsIgnoreCase(owner.getName()))
+				{
+					return owner.getMainAccount();
+				}
+				Account account = owner.getAccount(accountID);
+				if (account == null)
+				{
+					throw new AccountNotFoundException("Account '" + accountID + "' does not exist");
+				}
+				return account;
 			}
-			
-			return accountOwner.getMainAccount();
+			else 
+			{
+				User accountOwner = userByName.get(accountID.toLowerCase());
+				if(accountOwner == null)
+				{
+					throw new AccountNotFoundException("User '" + accountID + "' does not exist");
+				}
+				
+				return accountOwner.getMainAccount();
+			}
 		}
 		else //Format: <username>:<account-name>
 		{

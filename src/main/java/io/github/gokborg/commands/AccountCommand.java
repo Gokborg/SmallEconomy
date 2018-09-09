@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import io.github.gokborg.commands.acc.Balance;
 import io.github.gokborg.commands.acc.CreateAccount;
 import io.github.gokborg.commands.acc.ListAccounts;
+import io.github.gokborg.commands.acc.ShareAccount;
 import io.github.gokborg.commands.acc.SubCommand;
 import io.github.gokborg.components.Bank;
 
@@ -26,6 +27,7 @@ public class AccountCommand implements CommandExecutor
 		subCommands.put("bal", balance);
 		subCommands.put("balance", balance);
 		subCommands.put("list", new ListAccounts(bank));
+		subCommands.put("share", new ShareAccount(bank));
 	}
 	
 	@Override
@@ -47,7 +49,6 @@ public class AccountCommand implements CommandExecutor
 		SubCommand subCmd = subCommands.get(args[0].toLowerCase());
 		if(subCmd == null)
 		{
-			sender.sendMessage("HERE");
 			return false;
 		}
 		

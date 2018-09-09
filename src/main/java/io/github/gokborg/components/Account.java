@@ -18,6 +18,11 @@ public class Account
 	{
 	}
 	
+	public List<User> getAllUsers()
+	{
+		return players;
+	}
+	
 	public Account(String name)
 	{
 		this.name = name;
