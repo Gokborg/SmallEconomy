@@ -19,7 +19,7 @@ public abstract class CommandWrapper extends CommandTools implements CommandExec
 		{
 			return execute(sender, args);
 		}
-		catch (CommandException e)
+		catch(CommandException e)
 		{
 			sender.sendMessage(e.getMessage());
 			return true;

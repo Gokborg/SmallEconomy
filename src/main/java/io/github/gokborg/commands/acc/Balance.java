@@ -2,7 +2,6 @@ package io.github.gokborg.commands.acc;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
@@ -29,7 +28,6 @@ public class Balance extends SubCommand
 		{
 			sender.sendMessage(ChatColor.GREEN + "Balance: " + player.getMainAccount().getTotal() + "✿");
 		}
-		
 		else if(args.length == 1)
 		{
 			try
@@ -44,7 +42,6 @@ public class Balance extends SubCommand
 				check(!playerAccount.hasAccess(player), "You don't have permission to access this account.");
 				
 				sender.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "✿");
-				
 			}
 			catch(AccountNotFoundException e)
 			{

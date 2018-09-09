@@ -49,7 +49,7 @@ public class Bank
 		else //Format: <username>:<account-name>
 		{
 			String userName = accountID.substring(0, doublePointIndex);
-			String accountName = accountID.substring(doublePointIndex+1);
+			String accountName = accountID.substring(doublePointIndex + 1);
 			
 			User accountOwner = userByName.get(userName.toLowerCase());
 			if(accountOwner == null)

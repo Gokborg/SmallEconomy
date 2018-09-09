@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -59,9 +57,7 @@ public class AccountCommand extends CommandWrapper
 		String[] subArguments = new String[subArgsAmount];
 		System.arraycopy(args, 1, subArguments, 0, subArgsAmount);
 		
-		
 		subCmd.execute(sender, subArguments);
-
 		
 		return true;
 	}

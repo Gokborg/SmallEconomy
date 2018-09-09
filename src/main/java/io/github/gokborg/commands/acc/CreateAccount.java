@@ -29,7 +29,6 @@ public class CreateAccount extends SubCommand
 		}
 		
 		Player player = getPlayer(sender);
-		
 		User playerUser = getUser(bank, player);
 		
 		//Create a User for the executing player if he has none.

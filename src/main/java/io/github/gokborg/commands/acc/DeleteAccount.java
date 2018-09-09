@@ -17,7 +17,7 @@ public class DeleteAccount extends SubCommand
 	{
 		this.bank = bank;
 	}
-	//text
+	
 	@Override
 	public void execute(CommandSender sender, String[] args) throws CommandException
 	{

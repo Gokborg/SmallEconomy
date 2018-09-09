@@ -36,7 +36,7 @@ public class Account
 	public void addUser(User user)
 	{
 		players.add(user);
-		if (players.size() > 1)
+		if(players.size() > 1)
 		{
 			shared = true;
 		}
@@ -45,7 +45,7 @@ public class Account
 	public void removeUser(User user)
 	{
 		players.remove(user);
-		if (players.size() == 1)
+		if(players.size() == 1)
 		{
 			shared = false;
 		}

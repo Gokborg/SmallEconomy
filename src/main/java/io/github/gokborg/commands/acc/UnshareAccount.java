@@ -34,6 +34,5 @@ public class UnshareAccount extends SubCommand
 		playerAccount.removeUser(otherUser);
 		
 		sender.sendMessage(ChatColor.GREEN + "Removed '" + args[1] + "' from account '" + args[0] + "'");
-		
 	}
 }

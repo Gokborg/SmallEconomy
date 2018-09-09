@@ -50,7 +50,7 @@ public class PayCommand extends CommandWrapper
 				
 				if(playerAccount == null)
 				{
-					playerAccount = bank.parseAccountID(args[0]);	
+					playerAccount = bank.parseAccountID(args[0]);
 				}
 				
 				check(!playerAccount.hasAccess(playerUser), "You have no permission to transfer from this account.");

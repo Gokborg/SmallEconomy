@@ -57,10 +57,11 @@ public abstract class CommandTools
 	{
 		Account account = user.getAccount(accountName);
 		
-		if (account == null)
+		if(account == null)
 		{
-			die ("The account '" + accountName + "' does not exist.");
+			die("The account '" + accountName + "' does not exist.");
 		}
+		
 		return account;
 	}
 }

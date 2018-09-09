@@ -20,7 +20,7 @@ public class ListAccounts extends SubCommand
 	{
 		this.bank = bank;
 	}
-	//edit anything
+	
 	@Override
 	public void execute(CommandSender sender, String[] args) throws CommandException
 	{
@@ -40,14 +40,14 @@ public class ListAccounts extends SubCommand
 			
 			List<String> sharedAccounts = player.getSharedAccounts();
 			
-			if (sharedAccounts.isEmpty())
+			if(sharedAccounts.isEmpty())
 			{
 				sender.sendMessage(ChatColor.YELLOW + "No accounts shared with you.");
 				return;
 			}
 			
 			sender.sendMessage(ChatColor.YELLOW + "Shared accounts:");
-			for (String sharedAccountName : sharedAccounts)
+			for(String sharedAccountName : sharedAccounts)
 			{
 				sender.sendMessage("- " + ChatColor.LIGHT_PURPLE + sharedAccountName);
 			}
