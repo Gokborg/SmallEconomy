@@ -1,7 +1,7 @@
 package io.github.gokborg.commands.acc;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
@@ -19,16 +19,16 @@ public class DeleteAccount extends SubCommand
 	}
 	
 	@Override
-	public void execute(CommandSender sender, String[] args) throws CommandException
+	public void execute(Player player, String[] args) throws CommandException
 	{
-		User player = getUser(bank, getPlayer(sender));
+		User user = getUser(bank, player);
 		
 		check(args.length != 1, "Usage: /acc del <account_name>");
 		
-		Account targetAccount = getAccount(player, args[0]);
+		Account targetAccount = getAccount(user, args[0]);
 		
-		player.removeAccount(targetAccount);
+		user.removeAccount(targetAccount);
 		
-		sender.sendMessage(ChatColor.GREEN + "Successfully removed account.");
+		player.sendMessage(ChatColor.GREEN + "Successfully removed account.");
 	}
 }

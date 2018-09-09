@@ -1,7 +1,7 @@
 package io.github.gokborg.commands.acc;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
@@ -20,37 +20,37 @@ public class Balance extends SubCommand
 	}
 	
 	@Override
-	public void execute(CommandSender sender, String[] args) throws CommandException
+	public void execute(Player player, String[] args) throws CommandException
 	{
-		User player = getUser(bank, getPlayer(sender));
+		User user = getUser(bank, player);
 		
 		if(args.length == 0)
 		{
-			sender.sendMessage(ChatColor.GREEN + "Balance: " + player.getMainAccount().getTotal() + "✿");
+			player.sendMessage(ChatColor.GREEN + "Balance: " + user.getMainAccount().getTotal() + "✿");
 		}
 		else if(args.length == 1)
 		{
 			try
 			{
-				Account playerAccount = player.getAccount(args[0]);
+				Account playerAccount = user.getAccount(args[0]);
 				
 				if(playerAccount == null)
 				{
 					playerAccount = bank.parseAccountID(args[0]);
 				}
 				
-				check(!playerAccount.hasAccess(player), "You don't have permission to access this account.");
+				check(!playerAccount.hasAccess(user), "You don't have permission to access this account.");
 				
-				sender.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "✿");
+				player.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "✿");
 			}
 			catch(AccountNotFoundException e)
 			{
-				sender.sendMessage(ChatColor.RED + e.getMessage());
+				player.sendMessage(ChatColor.RED + e.getMessage());
 			}
 		}
 		else
 		{
-			sender.sendMessage(ChatColor.RED + "Usage: /acc bal [account]");
+			player.sendMessage(ChatColor.RED + "Usage: /acc bal [account]");
 		}
 	}
 }

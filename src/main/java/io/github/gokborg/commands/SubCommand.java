@@ -1,10 +1,10 @@
 package io.github.gokborg.commands;
 
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.gokborg.exceptions.CommandException;
 
 public abstract class SubCommand extends CommandTools
 {
-	public abstract void execute(CommandSender sender, String[] args) throws CommandException;
+	public abstract void execute(Player player, String[] args) throws CommandException;
 }

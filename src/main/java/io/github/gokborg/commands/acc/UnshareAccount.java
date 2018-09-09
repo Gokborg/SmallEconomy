@@ -1,7 +1,7 @@
 package io.github.gokborg.commands.acc;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
@@ -19,13 +19,13 @@ public class UnshareAccount extends SubCommand
 	}
 	
 	@Override
-	public void execute(CommandSender sender, String[] args) throws CommandException
+	public void execute(Player player, String[] args) throws CommandException
 	{
-		User player = getUser(bank, getPlayer(sender));
+		User user = getUser(bank, getPlayer(player));
 		
 		check(args.length != 2, "Usage: /acc unshare <account_name> <user>");
 		
-		Account playerAccount = getAccount(player, args[0]);
+		Account playerAccount = getAccount(user, args[0]);
 		check(!playerAccount.isShared(), "The account '" + args[0] + "' isn't shared");
 		
 		User otherUser = bank.getUser(args[1]);
@@ -33,6 +33,6 @@ public class UnshareAccount extends SubCommand
 		
 		playerAccount.removeUser(otherUser);
 		
-		sender.sendMessage(ChatColor.GREEN + "Removed '" + args[1] + "' from account '" + args[0] + "'");
+		player.sendMessage(ChatColor.GREEN + "Removed '" + args[1] + "' from account '" + args[0] + "'");
 	}
 }

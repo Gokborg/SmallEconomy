@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
@@ -22,34 +22,34 @@ public class ListAccounts extends SubCommand
 	}
 	
 	@Override
-	public void execute(CommandSender sender, String[] args) throws CommandException
+	public void execute(Player player, String[] args) throws CommandException
 	{
-		User player = getUser(bank, getPlayer(sender));
+		User user = getUser(bank, player);
 		
 		if(args.length == 0) //Print all accounts of this user
 		{
-			Collection<Account> accounts = player.getAllAccounts();
+			Collection<Account> accounts = user.getAllAccounts();
 			check(accounts.isEmpty(), "You have no sub-accounts");
 			
-			sender.sendMessage(ChatColor.YELLOW + "Your accounts:");
+			player.sendMessage(ChatColor.YELLOW + "Your accounts:");
 			for(Account account : accounts)
 			{
-				sender.sendMessage("- " + (account.isShared() ? ChatColor.AQUA : ChatColor.GREEN) + account.getName());
+				player.sendMessage("- " + (account.isShared() ? ChatColor.AQUA : ChatColor.GREEN) + account.getName());
 				
 			}
 			
-			List<String> sharedAccounts = player.getSharedAccounts();
+			List<String> sharedAccounts = user.getSharedAccounts();
 			
 			if(sharedAccounts.isEmpty())
 			{
-				sender.sendMessage(ChatColor.YELLOW + "No accounts shared with you.");
+				player.sendMessage(ChatColor.YELLOW + "No accounts shared with you.");
 				return;
 			}
 			
-			sender.sendMessage(ChatColor.YELLOW + "Shared accounts:");
+			player.sendMessage(ChatColor.YELLOW + "Shared accounts:");
 			for(String sharedAccountName : sharedAccounts)
 			{
-				sender.sendMessage("- " + ChatColor.LIGHT_PURPLE + sharedAccountName);
+				player.sendMessage("- " + ChatColor.LIGHT_PURPLE + sharedAccountName);
 			}
 			
 			//TODO: Print accounts this user also has access to.
@@ -62,10 +62,10 @@ public class ListAccounts extends SubCommand
 			Collection<Account> accounts = otherUser.getAllAccounts();
 			check(accounts.isEmpty(), "The user '" + args[0] + "' has no sub-account.");
 			
-			sender.sendMessage(args[0] + "'s accounts:");
+			player.sendMessage(args[0] + "'s accounts:");
 			for(Account account : accounts)
 			{
-				sender.sendMessage("- " + ChatColor.GREEN + account.getName());
+				player.sendMessage("- " + ChatColor.GREEN + account.getName());
 			}
 		}
 	}

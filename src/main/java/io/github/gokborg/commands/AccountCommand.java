@@ -3,7 +3,6 @@ package io.github.gokborg.commands;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -34,11 +33,7 @@ public class AccountCommand extends CommandWrapper
 	public boolean execute(CommandSender sender, String[] args) throws CommandException
 	{
 		//Check if sender is a player, only players need accounts
-		if(!(sender instanceof Player))
-		{
-			sender.sendMessage(ChatColor.RED + "You must be a player to run this command.");
-			return true;
-		}
+		Player player = getPlayer(sender);
 		
 		//Check if sub command given
 		if(args.length < 1)
@@ -57,7 +52,7 @@ public class AccountCommand extends CommandWrapper
 		String[] subArguments = new String[subArgsAmount];
 		System.arraycopy(args, 1, subArguments, 0, subArgsAmount);
 		
-		subCmd.execute(sender, subArguments);
+		subCmd.execute(player, subArguments);
 		
 		return true;
 	}

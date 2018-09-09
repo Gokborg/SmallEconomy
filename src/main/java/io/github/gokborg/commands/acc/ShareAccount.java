@@ -1,7 +1,7 @@
 package io.github.gokborg.commands.acc;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
 import io.github.gokborg.components.Account;
@@ -19,14 +19,14 @@ public class ShareAccount extends SubCommand
 	}
 	
 	@Override
-	public void execute(CommandSender sender, String[] args) throws CommandException
+	public void execute(Player player, String[] args) throws CommandException
 	{
-		User playerUser = getUser(bank, getPlayer(sender));
+		User playerUser = getUser(bank, player);
 		
 		check(args.length != 2, "Usage: /acc share <account> <user>");
 		
 		//If they attempt to share w/ themselves stop them.
-		check(args[1].equalsIgnoreCase(sender.getName()), "You can not share an account with yourself.");
+		check(args[1].equalsIgnoreCase(player.getName()), "You can not share an account with yourself.");
 		
 		//Shares with the other user
 		User otherUser = bank.getUser(args[1]);
@@ -38,6 +38,6 @@ public class ShareAccount extends SubCommand
 		
 		account.addUser(otherUser);
 		otherUser.addSharedAccount(account.getName());
-		sender.sendMessage(ChatColor.GREEN + "Successfully shared '" + args[0] + "' with " + args[1]);
+		player.sendMessage(ChatColor.GREEN + "Successfully shared '" + args[0] + "' with " + args[1]);
 	}
 }
