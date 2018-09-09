@@ -41,7 +41,7 @@ public class ShareAccount extends SubCommand
 			}
 			
 			//Shares with the other user
-			User otherUser = bank.getUser(args[1].toLowerCase());
+			User otherUser = bank.getUser(args[1]);
 			
 			//Incase the otheruser does not exist
 			if(otherUser == null)

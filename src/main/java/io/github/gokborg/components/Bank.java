@@ -92,6 +92,6 @@ public class Bank
 	
 	public User getUser(String name)
 	{
-		return userByName.get(name);
+		return userByName.get(name.toLowerCase());
 	}
 }
