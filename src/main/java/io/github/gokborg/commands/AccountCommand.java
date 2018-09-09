@@ -14,6 +14,7 @@ import io.github.gokborg.commands.acc.CreateAccount;
 import io.github.gokborg.commands.acc.ListAccounts;
 import io.github.gokborg.commands.acc.ShareAccount;
 import io.github.gokborg.commands.acc.SubCommand;
+import io.github.gokborg.commands.acc.UnshareAccount;
 import io.github.gokborg.components.Bank;
 
 public class AccountCommand implements CommandExecutor
@@ -28,6 +29,7 @@ public class AccountCommand implements CommandExecutor
 		subCommands.put("balance", balance);
 		subCommands.put("list", new ListAccounts(bank));
 		subCommands.put("share", new ShareAccount(bank));
+		subCommands.put("unshare", new UnshareAccount(bank));
 	}
 	
 	@Override

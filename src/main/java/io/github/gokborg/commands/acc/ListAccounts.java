@@ -1,6 +1,7 @@
 package io.github.gokborg.commands.acc;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +19,7 @@ public class ListAccounts extends SubCommand
 	{
 		this.bank = bank;
 	}
-	
+	//edit anything
 	@Override
 	public void process(CommandSender sender, String[] args)
 	{
@@ -44,8 +45,17 @@ public class ListAccounts extends SubCommand
 				sender.sendMessage("- " + (account.isShared() ? ChatColor.AQUA : ChatColor.GREEN) + account.getName());
 				
 			}
+			
+			List<String> sharedAccounts = player.getSharedAccounts();
+			
+			if (sharedAccounts.isEmpty())
+			{
+				sender.sendMessage(ChatColor.YELLOW + "No accounts shared with you.");
+				return;
+			}
+			
 			sender.sendMessage(ChatColor.YELLOW + "Shared accounts:");
-			for (String sharedAccountName : player.getSharedAccounts())
+			for (String sharedAccountName : sharedAccounts)
 			{
 				sender.sendMessage("- " + ChatColor.LIGHT_PURPLE + sharedAccountName);
 			}

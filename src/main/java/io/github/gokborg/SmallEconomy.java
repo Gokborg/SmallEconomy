@@ -12,10 +12,12 @@ public class SmallEconomy extends JavaLoaderBukkitProject
 {
 	private Bank bank = new Bank();
 	
+	//TODO: DELETE THIS
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onLoad()
 	{
+		//TODO: DELETE THIS
 		bank.createUser("Ecconia", Bukkit.getOfflinePlayer("Ecconia").getUniqueId());
 	}
 	
