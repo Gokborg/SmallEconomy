@@ -21,9 +21,13 @@ import io.github.gokborg.exceptions.CommandException;
 public class AccountCommand extends CommandWrapper
 {
 	private Map<String, SubCommand> subCommands = new HashMap<>();
+	private final Bank bank;
+	private final TabCompleteTools tabCompleteTools;
 	
 	public AccountCommand(Bank bank)
 	{
+		this.tabCompleteTools = new TabCompleteTools(bank);
+		this.bank = bank;
 		subCommands.put("create", new CreateAccount(bank));
 		Balance balance = new Balance(bank);
 		subCommands.put("bal", balance);
@@ -75,6 +79,32 @@ public class AccountCommand extends CommandWrapper
 				}
 			}
 			return tabCompletionList;
+		}
+		else if(args.length == 2)
+		{
+			if(args[0].equalsIgnoreCase("list"))
+			{
+				return tabCompleteTools.closestUser(args[1]);
+			}
+			else if(args[0].equalsIgnoreCase("bal"))
+			{
+				return tabCompleteTools.closestAccount(bank.getUser(sender.getName()), args[1]);
+			}
+			else if(args[0].equalsIgnoreCase("share") || args[0].equalsIgnoreCase("unshare"))
+			{
+				return tabCompleteTools.closestAccount(bank.getUser(sender.getName()), args[1]);
+			}
+			else if(args[0].equalsIgnoreCase("list"))
+			{
+				return tabCompleteTools.closestUser(args[1]);
+			}
+		}
+		else if(args.length == 3)
+		{
+			if(args[0].equalsIgnoreCase("share") || args[0].equalsIgnoreCase("unshare"))
+			{
+				return tabCompleteTools.closestUser(args[2]);
+			}
 		}
 		return Collections.emptyList();
 	}

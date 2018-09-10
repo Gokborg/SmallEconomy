@@ -1,6 +1,5 @@
 package io.github.gokborg.commands;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,9 +16,11 @@ import io.github.gokborg.exceptions.CommandException;
 public class PayCommand extends CommandWrapper
 {
 	private final Bank bank;
+	private final TabCompleteTools tabCompleteTools;
 	
 	public PayCommand(Bank bank)
 	{
+		this.tabCompleteTools = new TabCompleteTools(bank);
 		this.bank = bank;
 	}
 	
@@ -99,34 +100,7 @@ public class PayCommand extends CommandWrapper
 	{
 		if(args.length == 1)
 		{
-			List<String> tabCompleteList = new ArrayList<>();
-			
-			int colonIndex = args[0].indexOf(':');
-			
-			for(String userStr : bank.getAllUsers())
-			{
-				if(colonIndex != -1)
-				{
-					User user = bank.getUser(args[0].substring(0, colonIndex));
-					if(user != null)
-					{
-						for(String accStr : user.getAllAccountsName())
-						{
-							if(accStr.startsWith(args[0].substring(colonIndex + 1, args[0].length())))
-							{
-								tabCompleteList.add(user.getName().toLowerCase() + ":" + accStr);
-							}
-						}
-					}
-				}
-				else if(!args[0].isEmpty() && userStr.startsWith(args[0]))
-				{
-					
-					tabCompleteList.add(userStr);
-					return tabCompleteList;
-				}
-			}
-			return bank.getAllUsers();
+			return tabCompleteTools.closestUser(args[0]);
 		}
 		return Collections.emptyList();
 	}
