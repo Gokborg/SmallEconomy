@@ -24,7 +24,7 @@ public class GiveMoney extends SubCommand
 	{
 		// /accmng give Gokborg [+ or - or =] <amount>
 		
-		check(args.length != 3, "Usage: /accmng give <player> <+ or - or => <amount>");
+		check(args.length != 3, "Usage: /mngacc give <player> <+ or - or => <amount>");
 		
 		try
 		{
@@ -43,7 +43,7 @@ public class GiveMoney extends SubCommand
 				otherAccount.setTotal(amount);
 				break;
 			default:
-				player.sendMessage(ChatColor.RED + "Usage: /accmng give <player> <+ or - or => <amount>");
+				player.sendMessage(ChatColor.RED + "Usage: /mngacc give <player> <+ or - or => <amount>");
 			}
 			
 			player.sendMessage(ChatColor.GREEN + "Added $" + amount + " to " + args[0] + "'s account");
