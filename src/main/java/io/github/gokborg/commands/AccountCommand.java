@@ -67,45 +67,47 @@ public class AccountCommand extends CommandWrapper
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args)
 	{
-		if(args.length == 1)
+		if(args.length != 0)
 		{
-			List<String> tabCompletionList = new ArrayList<>();
-			
-			for(String str : new ArrayList<>(subCommands.keySet()))
+			String lowerCase = args[0].toLowerCase();
+			if(args.length == 1)
 			{
-				if(str.startsWith(args[0]))
+				List<String> tabCompletionList = new ArrayList<>();
+				
+				for(String subCommand : subCommands.keySet())
 				{
-					tabCompletionList.add(str);
+					if(subCommand.startsWith(lowerCase))
+					{
+						tabCompletionList.add(subCommand);
+					}
+				}
+				
+				return tabCompletionList;
+			}
+			else if(args.length == 2)
+			{
+				if(lowerCase.equals("list"))
+				{
+					return tabCompleteTools.closestUser(args[1]);
+				}
+				else if(lowerCase.equals("bal"))
+				{
+					return tabCompleteTools.closestAccount(bank.getUser(sender.getName()), args[1]);
+				}
+				else if(lowerCase.equals("share") || lowerCase.equals("unshare"))
+				{
+					return tabCompleteTools.closestAccount(bank.getUser(sender.getName()), args[1]);
 				}
 			}
-			return tabCompletionList;
-		}
-		else if(args.length == 2)
-		{
-			if(args[0].equalsIgnoreCase("list"))
+			else if(args.length == 3)
 			{
-				return tabCompleteTools.closestUser(args[1]);
-			}
-			else if(args[0].equalsIgnoreCase("bal"))
-			{
-				return tabCompleteTools.closestAccount(bank.getUser(sender.getName()), args[1]);
-			}
-			else if(args[0].equalsIgnoreCase("share") || args[0].equalsIgnoreCase("unshare"))
-			{
-				return tabCompleteTools.closestAccount(bank.getUser(sender.getName()), args[1]);
-			}
-			else if(args[0].equalsIgnoreCase("list"))
-			{
-				return tabCompleteTools.closestUser(args[1]);
+				if(lowerCase.equals("share") || lowerCase.equals("unshare"))
+				{
+					return tabCompleteTools.closestUser(args[2]);
+				}
 			}
 		}
-		else if(args.length == 3)
-		{
-			if(args[0].equalsIgnoreCase("share") || args[0].equalsIgnoreCase("unshare"))
-			{
-				return tabCompleteTools.closestUser(args[2]);
-			}
-		}
+		
 		return Collections.emptyList();
 	}
 }
