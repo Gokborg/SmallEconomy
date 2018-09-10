@@ -1,9 +1,14 @@
 package io.github.gokborg.commands.admin;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
+import io.github.gokborg.commands.TabCompleteTools;
 import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.exceptions.AccountNotFoundException;
@@ -11,7 +16,6 @@ import io.github.gokborg.exceptions.CommandException;
 
 public class GiveMoney extends SubCommand
 {
-	
 	private final Bank bank;
 	
 	public GiveMoney(Bank bank)
@@ -57,5 +61,21 @@ public class GiveMoney extends SubCommand
 		{
 			player.sendMessage(ChatColor.RED + "Please use an integer for the amount.");
 		}
+	}
+	
+	@Override
+	public List<String> tabComplete(Player player, String[] args)
+	{
+		if(args.length == 1)
+		{
+			return TabCompleteTools.closestUserWithAccount(bank, args[0]);
+		}
+		
+		if(args.length == 2)
+		{
+			return Arrays.asList("+", "-", "=");
+		}
+		
+		return Collections.emptyList();
 	}
 }

@@ -1,12 +1,14 @@
 package io.github.gokborg.commands.acc;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
+import io.github.gokborg.commands.TabCompleteTools;
 import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
@@ -14,7 +16,7 @@ import io.github.gokborg.exceptions.CommandException;
 
 public class ListAccounts extends SubCommand
 {
-	private Bank bank;
+	private final Bank bank;
 	
 	public ListAccounts(Bank bank)
 	{
@@ -68,5 +70,11 @@ public class ListAccounts extends SubCommand
 				player.sendMessage("- " + ChatColor.GREEN + account.getName());
 			}
 		}
+	}
+	
+	@Override
+	public List<String> tabComplete(Player player, String[] args)
+	{
+		return args.length == 1 ? TabCompleteTools.closestUser(bank, args[0]) : Collections.emptyList();
 	}
 }

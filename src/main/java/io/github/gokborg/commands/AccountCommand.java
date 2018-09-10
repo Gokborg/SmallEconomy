@@ -1,10 +1,10 @@
 package io.github.gokborg.commands;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,16 +21,11 @@ import io.github.gokborg.exceptions.CommandException;
 public class AccountCommand extends CommandWrapper
 {
 	private Map<String, SubCommand> subCommands = new HashMap<>();
-	private final Bank bank;
-	private final TabCompleteTools tabCompleteTools;
 	
 	public AccountCommand(Bank bank)
 	{
-		this.tabCompleteTools = new TabCompleteTools(bank);
-		this.bank = bank;
 		subCommands.put("create", new CreateAccount(bank));
-		Balance balance = new Balance(bank);
-		subCommands.put("bal", balance);
+		subCommands.put("bal", new Balance(bank));
 		subCommands.put("list", new ListAccounts(bank));
 		subCommands.put("share", new ShareAccount(bank));
 		subCommands.put("unshare", new UnshareAccount(bank));
@@ -67,44 +62,22 @@ public class AccountCommand extends CommandWrapper
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args)
 	{
-		if(args.length != 0)
+		if(sender instanceof Player)
 		{
 			String lowerCase = args[0].toLowerCase();
 			if(args.length == 1)
 			{
-				List<String> tabCompletionList = new ArrayList<>();
-				
-				for(String subCommand : subCommands.keySet())
-				{
-					if(subCommand.startsWith(lowerCase))
-					{
-						tabCompletionList.add(subCommand);
-					}
-				}
-				
-				return tabCompletionList;
+				return subCommands.keySet().stream().filter(sc -> sc.startsWith(lowerCase)).collect(Collectors.toList());
 			}
-			else if(args.length == 2)
+			
+			SubCommand subCommand = subCommands.get(lowerCase);
+			if(subCommand != null)
 			{
-				if(lowerCase.equals("list"))
-				{
-					return tabCompleteTools.closestUser(args[1]);
-				}
-				else if(lowerCase.equals("bal"))
-				{
-					return tabCompleteTools.closestAccount(bank.getUser(sender.getName()), args[1]);
-				}
-				else if(lowerCase.equals("share") || lowerCase.equals("unshare"))
-				{
-					return tabCompleteTools.closestAccount(bank.getUser(sender.getName()), args[1]);
-				}
-			}
-			else if(args.length == 3)
-			{
-				if(lowerCase.equals("share") || lowerCase.equals("unshare"))
-				{
-					return tabCompleteTools.closestUser(args[2]);
-				}
+				int subArgsAmount = args.length - 1;
+				String[] subArguments = new String[subArgsAmount];
+				System.arraycopy(args, 1, subArguments, 0, subArgsAmount);
+				
+				return subCommand.tabComplete((Player) sender, subArguments);
 			}
 		}
 		

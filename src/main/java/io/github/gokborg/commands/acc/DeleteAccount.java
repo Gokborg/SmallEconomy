@@ -1,5 +1,8 @@
 package io.github.gokborg.commands.acc;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -11,7 +14,7 @@ import io.github.gokborg.exceptions.CommandException;
 
 public class DeleteAccount extends SubCommand
 {
-	private Bank bank;
+	private final Bank bank;
 	
 	public DeleteAccount(Bank bank)
 	{
@@ -30,5 +33,11 @@ public class DeleteAccount extends SubCommand
 		user.removeAccount(targetAccount);
 		
 		player.sendMessage(ChatColor.GREEN + "Successfully removed account.");
+	}
+	
+	@Override
+	public List<String> tabComplete(Player player, String[] args)
+	{
+		return Collections.emptyList();
 	}
 }

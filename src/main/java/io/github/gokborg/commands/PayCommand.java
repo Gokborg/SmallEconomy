@@ -16,11 +16,9 @@ import io.github.gokborg.exceptions.CommandException;
 public class PayCommand extends CommandWrapper
 {
 	private final Bank bank;
-	private final TabCompleteTools tabCompleteTools;
 	
 	public PayCommand(Bank bank)
 	{
-		this.tabCompleteTools = new TabCompleteTools(bank);
 		this.bank = bank;
 	}
 	
@@ -100,8 +98,9 @@ public class PayCommand extends CommandWrapper
 	{
 		if(args.length == 1)
 		{
-			return tabCompleteTools.closestUser(args[0]);
+			return TabCompleteTools.closestUser(bank, args[0]);
 		}
+		
 		return Collections.emptyList();
 	}
 }

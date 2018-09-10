@@ -1,5 +1,8 @@
 package io.github.gokborg.commands.acc;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -49,5 +52,11 @@ public class CreateAccount extends SubCommand
 				player.sendMessage(ChatColor.RED + e.getMessage());
 			}
 		}
+	}
+	
+	@Override
+	public List<String> tabComplete(Player player, String[] args)
+	{
+		return Collections.emptyList();
 	}
 }

@@ -9,14 +9,7 @@ import io.github.gokborg.components.User;
 
 public class TabCompleteTools
 {
-	private final Bank bank;
-	
-	public TabCompleteTools(Bank bank)
-	{
-		this.bank = bank;
-	}
-	
-	public List<String> closestUserWithAccount(String str)
+	public static List<String> closestUserWithAccount(Bank bank, String str)
 	{
 		List<String> tabCompleteList = new ArrayList<>();
 		
@@ -36,6 +29,7 @@ public class TabCompleteTools
 							tabCompleteList.add(user.getName().toLowerCase() + ":" + accStr);
 						}
 					}
+					
 					return tabCompleteList;
 				}
 			}
@@ -46,11 +40,12 @@ public class TabCompleteTools
 				return tabCompleteList;
 			}
 		}
+		
 		return bank.getAllUsers();
 	}
 	
 	//Looks for users and looks for users:account
-	public List<String> closestUser(String str)
+	public static List<String> closestUser(Bank bank, String str)
 	{
 		List<String> tabCompleteList = new ArrayList<>();
 		
@@ -58,16 +53,16 @@ public class TabCompleteTools
 		{
 			if(!str.isEmpty() && userStr.startsWith(str))
 			{
-				
 				tabCompleteList.add(userStr);
 				return tabCompleteList;
 			}
 		}
+		
 		return bank.getAllUsers();
 	}
 	
 	//Looks for just account
-	public List<String> closestAccount(User user, String str)
+	public static List<String> closestAccount(User user, String str)
 	{
 		List<String> tabCompleteList = new ArrayList<>();
 		
@@ -80,8 +75,10 @@ public class TabCompleteTools
 					tabCompleteList.add(accStr);
 				}
 			}
+			
 			return tabCompleteList != null ? tabCompleteList : user.getAllAccountsName();
 		}
+		
 		return Collections.emptyList();
 	}
 }
