@@ -1,8 +1,12 @@
 package io.github.gokborg.commands;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,7 +27,6 @@ public class AccountCommand extends CommandWrapper
 		subCommands.put("create", new CreateAccount(bank));
 		Balance balance = new Balance(bank);
 		subCommands.put("bal", balance);
-		subCommands.put("balance", balance);
 		subCommands.put("list", new ListAccounts(bank));
 		subCommands.put("share", new ShareAccount(bank));
 		subCommands.put("unshare", new UnshareAccount(bank));
@@ -55,5 +58,24 @@ public class AccountCommand extends CommandWrapper
 		subCmd.execute(player, subArguments);
 		
 		return true;
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args)
+	{
+		if(args.length == 1)
+		{
+			List<String> tabCompletionList = new ArrayList<>();
+			
+			for(String str : new ArrayList<>(subCommands.keySet()))
+			{
+				if(str.startsWith(args[0]))
+				{
+					tabCompletionList.add(str);
+				}
+			}
+			return tabCompletionList;
+		}
+		return Collections.emptyList();
 	}
 }
