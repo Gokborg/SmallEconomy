@@ -1,6 +1,8 @@
 package io.github.gokborg.components;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,6 +12,11 @@ public class Bank
 {
 	private Map<String, User> userByName = new HashMap<>();
 	private Map<UUID, User> userByUUID = new HashMap<>();
+	
+	public List<String> getAllUsers()
+	{
+		return new ArrayList<>(userByName.keySet());
+	}
 	
 	public User createUser(String username, UUID uuid)
 	{

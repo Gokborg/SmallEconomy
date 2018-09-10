@@ -36,6 +36,12 @@ public class User
 		return subAccounts.values();
 	}
 	
+	//Used for the tab completion
+	public List<String> getAllAccountsName()
+	{
+		return new ArrayList<>(subAccounts.keySet());
+	}
+	
 	public UUID getUUID()
 	{
 		return playerUUID;

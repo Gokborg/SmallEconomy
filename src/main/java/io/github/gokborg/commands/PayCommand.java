@@ -1,6 +1,11 @@
 package io.github.gokborg.commands;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import io.github.gokborg.components.Account;
@@ -87,5 +92,42 @@ public class PayCommand extends CommandWrapper
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args)
+	{
+		if(args.length == 1)
+		{
+			List<String> tabCompleteList = new ArrayList<>();
+			
+			int colonIndex = args[0].indexOf(':');
+			
+			for(String userStr : bank.getAllUsers())
+			{
+				if(colonIndex != -1)
+				{
+					User user = bank.getUser(args[0].substring(0, colonIndex));
+					if(user != null)
+					{
+						for(String accStr : user.getAllAccountsName())
+						{
+							if(accStr.startsWith(args[0].substring(colonIndex + 1, args[0].length())))
+							{
+								tabCompleteList.add(user.getName().toLowerCase() + ":" + accStr);
+							}
+						}
+					}
+				}
+				else if(!args[0].isEmpty() && userStr.startsWith(args[0]))
+				{
+					
+					tabCompleteList.add(userStr);
+					return tabCompleteList;
+				}
+			}
+			return bank.getAllUsers();
+		}
+		return Collections.emptyList();
 	}
 }
