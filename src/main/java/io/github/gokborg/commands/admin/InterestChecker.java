@@ -34,11 +34,11 @@ public class InterestChecker extends BukkitRunnable
 				if(player != null)
 				{
 					player.sendMessage(ChatColor.GREEN + "Interest has been applied! Enjoy the extra money!");
-				}
-				user.getMainAccount().add(Math.round(user.getMainAccount().getTotal()*bank.getInterestRate()));
-				for(Account acc : user.getAllAccounts())
-				{
-					acc.add(Math.round(acc.getTotal() * bank.getInterestRate()));
+					user.getMainAccount().add(Math.round(user.getMainAccount().getTotal()*bank.getInterestRate()));
+					for(Account acc : user.getAllAccounts())
+					{
+						acc.add(Math.round(acc.getTotal() * bank.getInterestRate()));
+					}
 				}
 			}
 		}
