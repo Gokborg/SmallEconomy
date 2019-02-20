@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
@@ -33,11 +33,11 @@ public class PayCommand extends CommandWrapper
 			return false;
 		}
 		
-		Integer transactionAmount = null;
+		Long transactionAmount = null;
 		try
 		{
 			//Parse last argument to Integer
-			transactionAmount = Integer.parseInt(args[args.length - 1]);
+			transactionAmount = Long.parseLong(args[args.length - 1]);
 			check(transactionAmount < 0, "You can only transfer positive amounts.");
 			check(transactionAmount == 0, "Cannot transfer nothing.");
 		}
@@ -48,10 +48,15 @@ public class PayCommand extends CommandWrapper
 		
 		try
 		{
+			String msg;
 			if(args.length == 3)
 			{
 				Account playerAccount = playerUser.getAccount(args[0]);
 				
+				if(playerAccount == null)
+				{
+					playerAccount = bank.searchAccount(args[0]);
+				}
 				if(playerAccount == null)
 				{
 					playerAccount = bank.parseAccountID(args[0]);
@@ -67,6 +72,8 @@ public class PayCommand extends CommandWrapper
 				//Finally, transfer the money
 				playerAccount.remove(transactionAmount);
 				otherPlayerAccount.add(transactionAmount);
+				msg = ChatColor.GREEN + "Recieved " + transactionAmount + "☕ from " + sender.getName().toLowerCase() + ":" + playerAccount.getName() + ".";
+				trySend(bank.parseAccountID(args[1]), msg);
 			}
 			else //Only 2 arguments are left
 			{
@@ -80,6 +87,8 @@ public class PayCommand extends CommandWrapper
 				//Finally, transfer the money
 				playerAccount.remove(transactionAmount);
 				otherPlayerAccount.add(transactionAmount);
+				msg = ChatColor.GREEN + "Recieved " + transactionAmount + "☕ from " + sender.getName().toLowerCase() + ".";
+				trySend(bank.parseAccountID(args[0]), msg);
 			}
 			
 			//Print positive feedback, nothing has been aborted
@@ -93,14 +102,21 @@ public class PayCommand extends CommandWrapper
 		return true;
 	}
 	
+
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args)
+	public List<String> onTabComplete(Player player, String[] args)
 	{
 		if(args.length == 1)
 		{
-			return TabCompleteTools.closestUser(bank, args[0]);
+			return TabCompleteTools.closestUserWithAccount(bank, args[0]);
+		}
+		
+		if(args.length == 2 && !args[1].matches("[0-9]+"))
+		{
+			return TabCompleteTools.closestUserWithAccount(bank, args[1]);
 		}
 		
 		return Collections.emptyList();
 	}
+	
 }

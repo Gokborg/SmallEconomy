@@ -1,5 +1,6 @@
 package io.github.gokborg.commands.acc;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.SubCommand;
-import io.github.gokborg.commands.TabCompleteTools;
 import io.github.gokborg.components.Account;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.components.User;
@@ -27,17 +27,28 @@ public class UnshareAccount extends SubCommand
 	{
 		User user = getUser(bank, player);
 		
-		check(args.length != 2, "Usage: /acc unshare <account_name> <user>");
+		check(args.length != 1, "Usage: /acc unshare <account_name> [user]");
 		
 		Account playerAccount = getAccount(user, args[0]);
 		check(!playerAccount.isShared(), "The account '" + args[0] + "' isn't shared");
 		
-		User otherUser = bank.getUser(args[1]);
-		check(otherUser, "The user '" + args[1] + "' does not exist.");
+		if(args.length == 2)
+		{
+			User otherUser = bank.getUser(args[1]);
+			check(otherUser, "The user '" + args[1] + "' does not exist.");
+			
+			playerAccount.removeUser(otherUser);
+			player.sendMessage(ChatColor.GREEN + "Removed '" + args[1] + "' from account '" + args[0] + "'");
+			
+			return;
+		}
 		
-		playerAccount.removeUser(otherUser);
-		
-		player.sendMessage(ChatColor.GREEN + "Removed '" + args[1] + "' from account '" + args[0] + "'");
+		player.sendMessage(ChatColor.GREEN + (ChatColor.BOLD + "Removed:"));
+		for(User sharedUser : playerAccount.getAllSharedUsers())
+		{
+			player.sendMessage(ChatColor.GREEN + "-> " + sharedUser.getName());
+		}
+		playerAccount.clearAllSharedUsers();
 	}
 	
 	@Override
@@ -45,12 +56,20 @@ public class UnshareAccount extends SubCommand
 	{
 		if(args.length == 1)
 		{
-			return TabCompleteTools.closestAccount(bank.getUser(player.getName()), args[0]);
+			User user = bank.getUser(player.getUniqueId());
+			return user != null && user.hasSharedAccounts() ? user.getSharedAccounts() : Collections.emptyList();
 		}
 		
 		if(args.length == 2)
 		{
-			return TabCompleteTools.closestUser(bank, args[1]);
+			List<String> allSharedUsers = new ArrayList<>();
+			
+			for(User user : bank.getUser(player.getUniqueId()).getAccount(args[0]).getAllSharedUsers())
+			{
+				allSharedUsers.add(user.getName());
+			}
+			
+			return allSharedUsers;
 		}
 		
 		return Collections.emptyList();

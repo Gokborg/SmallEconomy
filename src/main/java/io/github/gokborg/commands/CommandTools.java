@@ -1,5 +1,6 @@
 package io.github.gokborg.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,6 +41,24 @@ public abstract class CommandTools
 		}
 		
 		return (Player) sender;
+	}
+	
+	protected void trySend(Account account, String message)
+	{
+		Player player = Bukkit.getPlayer(account.getAllSharedUsers().get(0).getUUID());
+		if(player != null)
+		{
+			player.sendMessage(message);
+		}
+	}
+	
+	protected void trySend(User user, String message)
+	{
+		Player player = Bukkit.getPlayer(user.getUUID());
+		if(player != null)
+		{
+			player.sendMessage(message);
+		}
 	}
 	
 	protected User getUser(Bank bank, Player player) throws CommandException

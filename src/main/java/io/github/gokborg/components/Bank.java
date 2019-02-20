@@ -12,10 +12,17 @@ public class Bank
 {
 	private Map<String, User> userByName = new HashMap<>();
 	private Map<UUID, User> userByUUID = new HashMap<>();
+	private double interestRate = 0;
+	private long interestTimeSeconds = 0;
 	
-	public List<String> getAllUsers()
+	public List<User> getAllUsers()
 	{
-		return new ArrayList<>(userByName.keySet());
+		return new ArrayList<User>(userByName.values());
+	}
+	
+	public List<String> getAllUsernames()
+	{
+		return new ArrayList<String>(userByName.keySet());
 	}
 	
 	public User createUser(String username, UUID uuid)
@@ -73,7 +80,36 @@ public class Bank
 			return account;
 		}
 	}
-	
+	public Account searchAccount(String accountName)
+	{
+		accountName = accountName.toLowerCase();
+		for(User user : getAllUsers())
+		{
+			for(Account acc : user.getAllAccounts())
+			{
+				if(accountName.equals(acc.getName()))
+				{
+					return acc;
+				}
+			}
+		}
+		return null;
+	}
+	public User searchUser(String accountName)
+	{
+		accountName = accountName.toLowerCase();
+		for(User user : getAllUsers())
+		{
+			for(String acc : user.getAllAccountsName())
+			{
+				if(acc.equals(accountName))
+				{
+					return user;
+				}
+			}
+		}
+		return null;
+	}
 	public User getUser(UUID uuid)
 	{
 		return userByUUID.get(uuid);
@@ -82,5 +118,21 @@ public class Bank
 	public User getUser(String name)
 	{
 		return userByName.get(name.toLowerCase());
+	}
+	public void setInterestTime(long interestTimeSeconds)
+	{
+		this.interestTimeSeconds = interestTimeSeconds;
+	}
+	public long getInterestTime()
+	{
+		return interestTimeSeconds;
+	}
+	public void setInterestRate(double interestRate)
+	{
+		this.interestRate = interestRate;
+	}
+	public double getInterestRate()
+	{
+		return interestRate;
 	}
 }

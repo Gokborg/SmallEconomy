@@ -21,6 +21,8 @@ public class DeleteAccount extends SubCommand
 		this.bank = bank;
 	}
 	
+	//TODO: Add a way to delete a list of accounts.
+	
 	@Override
 	public void execute(Player player, String[] args) throws CommandException
 	{
@@ -38,6 +40,6 @@ public class DeleteAccount extends SubCommand
 	@Override
 	public List<String> tabComplete(Player player, String[] args)
 	{
-		return Collections.emptyList();
+		return args.length == 1 ? bank.getUser(player.getUniqueId()).getAllAccountsName() : Collections.emptyList();
 	}
 }

@@ -8,24 +8,29 @@ public class Account
 	//May be "null" if its a main account
 	private String name;
 	
+	//TODO: read discord pm ecconia
 	//List of players which have access to transfer money from this account
-	private final List<User> players = new ArrayList<>();
+	private final List<User> sharedUsers = new ArrayList<>();
 	private boolean shared = false;
 	//TODO: Replace 10 with notin
-	private int total = 10;
+	private long total = 0;
 	
 	public Account()
 	{
 	}
 	
-	public void setTotal(int total)
+	public void setShared()
 	{
-		this.total = total;
+		shared = true;
+	}
+	public void clearAllSharedUsers()
+	{
+		sharedUsers.clear();
 	}
 	
-	public List<User> getAllUsers()
+	public List<User> getAllSharedUsers()
 	{
-		return players;
+		return sharedUsers;
 	}
 	
 	public Account(String name)
@@ -40,8 +45,8 @@ public class Account
 	
 	public void addUser(User user)
 	{
-		players.add(user);
-		if(players.size() > 1)
+		sharedUsers.add(user);
+		if(sharedUsers.size() > 1)
 		{
 			shared = true;
 		}
@@ -49,8 +54,8 @@ public class Account
 	
 	public void removeUser(User user)
 	{
-		players.remove(user);
-		if(players.size() == 1)
+		sharedUsers.remove(user);
+		if(sharedUsers.size() == 1)
 		{
 			shared = false;
 		}
@@ -58,7 +63,7 @@ public class Account
 	
 	public boolean hasAccess(User user)
 	{
-		return players.contains(user);
+		return sharedUsers.contains(user);
 	}
 	
 	public String getName()
@@ -72,17 +77,21 @@ public class Account
 		this.name = name;
 	}
 	
-	public void add(int amount)
+	public void add(long amount)
 	{
 		total += amount;
 	}
-	
-	public void remove(int amount)
+	public void remove(long amount)
 	{
 		total -= amount;
 	}
 	
-	public int getTotal()
+	public void setTotal(long total)
+	{
+		this.total = total;
+	}
+	
+	public long getTotal()
 	{
 		return total;
 	}

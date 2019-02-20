@@ -33,7 +33,7 @@ public class GiveMoney extends SubCommand
 		try
 		{
 			Account otherAccount = bank.parseAccountID(args[0]);
-			int amount = Integer.parseInt(args[2]);
+			long amount = Long.parseLong(args[2]);
 			
 			switch(args[1])
 			{
@@ -50,7 +50,7 @@ public class GiveMoney extends SubCommand
 				player.sendMessage(ChatColor.RED + "Usage: /mngacc give <player> <+ or - or => <amount>");
 			}
 			
-			player.sendMessage(ChatColor.GREEN + "Added $" + amount + " to " + args[0] + "'s account");
+			player.sendMessage(ChatColor.GREEN + "Added " + amount + "☕ to " + args[0] + "'s account");
 		}
 		catch(AccountNotFoundException e)
 		{
@@ -59,7 +59,7 @@ public class GiveMoney extends SubCommand
 		}
 		catch(NumberFormatException e)
 		{
-			player.sendMessage(ChatColor.RED + "Please use an integer for the amount.");
+			player.sendMessage(ChatColor.RED + "Please use a integer for the amount.");
 		}
 	}
 	

@@ -51,7 +51,7 @@ public class ListAccounts extends SubCommand
 			player.sendMessage(ChatColor.YELLOW + "Shared accounts:");
 			for(String sharedAccountName : sharedAccounts)
 			{
-				player.sendMessage("- " + ChatColor.LIGHT_PURPLE + sharedAccountName);
+				player.sendMessage("- " + ChatColor.LIGHT_PURPLE + bank.searchUser(sharedAccountName).getName() + ":" + sharedAccountName);
 			}
 			
 			//TODO: Print accounts this user also has access to.

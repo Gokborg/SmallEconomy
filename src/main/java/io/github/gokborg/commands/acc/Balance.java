@@ -27,10 +27,9 @@ public class Balance extends SubCommand
 	public void execute(Player player, String[] args) throws CommandException
 	{
 		User user = getUser(bank, player);
-		
 		if(args.length == 0)
 		{
-			player.sendMessage(ChatColor.GREEN + "Balance: " + user.getMainAccount().getTotal() + "✿");
+			player.sendMessage(ChatColor.GREEN + "Balance: " + user.getMainAccount().getTotal() + "☕");
 		}
 		else if(args.length == 1)
 		{
@@ -45,7 +44,7 @@ public class Balance extends SubCommand
 				
 				check(!playerAccount.hasAccess(user), "You don't have permission to access this account.");
 				
-				player.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "✿");
+				player.sendMessage(ChatColor.GREEN + "Balance: " + playerAccount.getTotal() + "☕");
 			}
 			catch(AccountNotFoundException e)
 			{

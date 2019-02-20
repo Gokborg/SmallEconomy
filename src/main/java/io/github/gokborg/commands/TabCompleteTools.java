@@ -15,7 +15,7 @@ public class TabCompleteTools
 		
 		int colonIndex = str.indexOf(':');
 		
-		for(String userStr : bank.getAllUsers())
+		for(String userStr : bank.getAllUsernames())
 		{
 			if(colonIndex != -1)
 			{
@@ -41,7 +41,7 @@ public class TabCompleteTools
 			}
 		}
 		
-		return bank.getAllUsers();
+		return bank.getAllUsernames();
 	}
 	
 	//Looks for users and looks for users:account
@@ -49,7 +49,7 @@ public class TabCompleteTools
 	{
 		List<String> tabCompleteList = new ArrayList<>();
 		
-		for(String userStr : bank.getAllUsers())
+		for(String userStr : bank.getAllUsernames())
 		{
 			if(!str.isEmpty() && userStr.startsWith(str))
 			{
@@ -58,8 +58,10 @@ public class TabCompleteTools
 			}
 		}
 		
-		return bank.getAllUsers();
+		return bank.getAllUsernames();
 	}
+	
+	
 	
 	//Looks for just account
 	public static List<String> closestAccount(User user, String str)

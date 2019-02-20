@@ -52,6 +52,11 @@ public class User
 		return name;
 	}
 	
+	public boolean hasSharedAccounts()
+	{
+		return !sharedAccounts.isEmpty();
+	}
+	
 	public List<String> getSharedAccounts()
 	{
 		return sharedAccounts;
