@@ -13,6 +13,7 @@ import io.github.gokborg.file.Writer;
 import io.github.pieter12345.javaloader.bukkit.BukkitCommand;
 import io.github.pieter12345.javaloader.bukkit.JavaLoaderBukkitProject;
 
+//TODO: Add subcommand to rename a sub-account
 public class SmallEconomy extends JavaLoaderBukkitProject
 {
 	private Bank bank=new Bank();

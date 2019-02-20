@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.github.gokborg.commands.admin.GiveMoney;
-import io.github.gokborg.commands.admin.InterestChecker;
 import io.github.gokborg.commands.admin.InterestCommand;
 import io.github.gokborg.components.Bank;
 import io.github.gokborg.exceptions.CommandException;

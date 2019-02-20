@@ -23,6 +23,7 @@ public class Account
 	{
 		shared = true;
 	}
+	
 	public void clearAllSharedUsers()
 	{
 		sharedUsers.clear();
@@ -61,6 +62,16 @@ public class Account
 		}
 	}
 	
+	public User getOwner()
+	{
+		return sharedUsers.get(0);
+	}
+	
+	public boolean hasOwnership(User user)
+	{
+		return sharedUsers.get(0).equals(user);
+	}
+	
 	public boolean hasAccess(User user)
 	{
 		return sharedUsers.contains(user);
@@ -71,7 +82,6 @@ public class Account
 		return name;
 	}
 	
-	//TODO: Add subcommand to rename a sub-account
 	public void setName(String name)
 	{
 		this.name = name;

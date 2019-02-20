@@ -1,6 +1,5 @@
 package io.github.gokborg.commands.admin;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

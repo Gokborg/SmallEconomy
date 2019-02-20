@@ -108,4 +108,13 @@ public class User
 	{
 		subAccounts.remove(account.getName().toLowerCase(), account);
 	}
+	public boolean equals(Object object)
+	{
+		if(!(object instanceof User))
+		{
+			return false;
+		}
+		User user = (User)object;
+		return name.equals(user.getName()) && playerUUID.equals(user.getUUID());
+	}
 }

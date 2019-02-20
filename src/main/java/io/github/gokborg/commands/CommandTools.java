@@ -45,7 +45,7 @@ public abstract class CommandTools
 	
 	protected void trySend(Account account, String message)
 	{
-		Player player = Bukkit.getPlayer(account.getAllSharedUsers().get(0).getUUID());
+		Player player = Bukkit.getPlayer(account.getOwner().getUUID());
 		if(player != null)
 		{
 			player.sendMessage(message);

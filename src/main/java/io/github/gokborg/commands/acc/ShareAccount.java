@@ -40,6 +40,8 @@ public class ShareAccount extends SubCommand
 		
 		Account account = getAccount(playerUser, args[0]);
 		
+		check(account.getOwner().equals(playerUser), "You do not have ownership of this account");
+		
 		account.addUser(otherUser);
 		otherUser.addSharedAccount(account.getName());
 		player.sendMessage(ChatColor.GREEN + "Successfully shared '" + args[0] + "' with " + args[1]);
