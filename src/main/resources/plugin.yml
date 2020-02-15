@@ -1,0 +1,17 @@
+main: io.github.gokborg.SmallEconomy
+name: SmallEconomy
+version: 1.0
+description: An economy plugin.
+commands:
+    pay:
+        description: Pay a player an amount of money
+        usage: /pay [from] <to> <amount>
+        permission: smalleconomy.pay
+    acc:
+        description: Account management commands for yourself
+        usage: /acc <create, bal, list, share, unshare>
+        permission: smalleconomy.acc
+    mngacc:
+        description: Account management for admins
+        usage: /mngacc <give>
+        permission: smalleconomy.mngacc

@@ -29,7 +29,7 @@ public class Balance extends SubCommand
 		User user = getUser(bank, player);
 		if(args.length == 0)
 		{
-			player.sendMessage(ChatColor.GREEN + "Balance: " + user.getMainAccount().getTotal() + "☕");
+			player.sendMessage(ChatColor.GREEN + "Balance: " + user.getMainAccount().getTotal() + "â˜•");
 		}
 		else if(args.length == 1)
 		{
